@@ -14,12 +14,12 @@ const statuses = {
     ),
     approved: (
         <Tag style={{ marginTop: 5 }} icon={<CheckCircleOutlined spin />} color='success'>
-            Processing
+            Approved
         </Tag>
     ),
     declined: (
         <Tag style={{ marginTop: 5 }} icon={<CloseCircleOutlined spin />} color='error'>
-            Processing
+            Declined
         </Tag>
     ),
 };
