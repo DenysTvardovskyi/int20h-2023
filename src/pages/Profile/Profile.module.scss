@@ -1,5 +1,11 @@
-.profile-content{
+@import "../../styles/variables";
+
+.profileContent{
+  width: 100%;
+  min-height: 100vh;
   border: 1px solid red;
+  box-sizing: border-box;
+  padding: $spacing-small;
 }
 .navigation{
   width: 250px;

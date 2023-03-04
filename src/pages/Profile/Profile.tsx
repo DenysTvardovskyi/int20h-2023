@@ -44,7 +44,7 @@ export const Profile: FC<IProps> = (props: IProps): JSX.Element => {
                     items={items}
                 />
             </div>
-            <div className={styles.profileContent}></div>
+            <div className={styles.profileContent}>profile content</div>
         </AccountLayout>
     );
 };

@@ -6,9 +6,5 @@ interface IProps {
 }
 
 export const Account: FC<IProps> = ({ children }: IProps): JSX.Element => {
-    return (
-        <div className={styles.accountLayout}>
-            <div className={styles.authContainer}>{children}</div>
-        </div>
-    );
+    return <div className={styles.accountLayout}>{children}</div>;
 };
