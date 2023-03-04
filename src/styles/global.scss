@@ -45,7 +45,9 @@ h4 {
 h5 {
     font-size: $h5-size;
 }
-
+strong{
+    font-weight: $weight-bold;
+}
 @media only screen and (max-width: $screen-tablet) {
     h1 {
         font-size: $h1-size-m;
