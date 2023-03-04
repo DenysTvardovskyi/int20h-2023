@@ -3,6 +3,8 @@ import styles from "./Account.module.scss";
 import { Menu, MenuProps } from "antd";
 import { FireOutlined, InboxOutlined, ProjectOutlined, UserOutlined } from "@ant-design/icons";
 import { NavLink, useNavigate } from "react-router-dom";
+import { Player } from "@lottiefiles/react-lottie-player";
+import animation from "../../components/Loader/Loader.animation.json";
 
 interface IProps {
     children?: React.ReactNode | React.ReactNode[];
@@ -26,6 +28,7 @@ export const Account: FC<IProps> = ({ children }: IProps): JSX.Element => {
                     selectedKeys={[location.hash.replace("#", "")]}
                     onClick={onClick}
                 >
+                    <Player src={animation} style={{ width: 100 }} autoplay loop />
                     <Menu.Item key='/for-you'>
                         <NavLink to='/for-you'>
                             <FireOutlined />
