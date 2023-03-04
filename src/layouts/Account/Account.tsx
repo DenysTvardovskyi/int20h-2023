@@ -81,6 +81,8 @@ export const Account: FC<IProps> = ({ children }: IProps): JSX.Element => {
         },
     ];
 
+    const getMenu = () => (isMobile ? mobileMenu : desktopMenu);
+
     return (
         <div className={styles.accountLayout}>
             <div className={styles.navigation}>
@@ -93,23 +95,14 @@ export const Account: FC<IProps> = ({ children }: IProps): JSX.Element => {
                     onClick={onClick}
                 >
                     {!isMobile && <Player src={animation} style={{ width: 100 }} autoplay loop />}
-                    {!isMobile
-                        ? desktopMenu.map((item) => (
-                              <Menu.Item key={item.link}>
-                                  <NavLink to={item.link}>
-                                      {item.icon}
-                                      <span>{item.text}</span>
-                                  </NavLink>
-                              </Menu.Item>
-                          ))
-                        : mobileMenu.map((item) => (
-                              <Menu.Item key={item.link}>
-                                  <NavLink to={item.link}>
-                                      {item.icon}
-                                      <span>{item.text}</span>
-                                  </NavLink>
-                              </Menu.Item>
-                          ))}
+                    {getMenu().map((item) => (
+                        <Menu.Item key={item.link}>
+                            <NavLink to={item.link}>
+                                {item.icon}
+                                <span>{item.text}</span>
+                            </NavLink>
+                        </Menu.Item>
+                    ))}
                 </Menu>
             </div>
             <div className={styles.accountContent}>{children}</div>
