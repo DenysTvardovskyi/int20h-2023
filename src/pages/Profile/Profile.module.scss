@@ -1,2 +1,21 @@
 @import "../../styles/variables";
 
+.profileContent{
+  width: 100%;
+  border: 1px solid red;
+  display: flex;
+  justify-content: center;
+}
+
+.avatar{
+  width: 200px;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: $h4-size;
+}
+
+.profileContainer{
+  width: 50%;
+}

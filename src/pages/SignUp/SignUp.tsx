@@ -55,7 +55,7 @@ export const SignUp: FC<IProps> = (props: IProps): JSX.Element => {
                 </Form.Item>
 
                 <Form.Item
-                    name='First name'
+                    name='lastName'
                     rules={[{ required: true, message: "Please input your last name!" }]}
                 >
                     <Input placeholder={"Last name"} />
