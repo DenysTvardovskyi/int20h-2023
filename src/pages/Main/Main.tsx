@@ -1,9 +1,10 @@
 import React, { FC, useState } from "react";
-import { Landing as LandingLayout } from "../../layouts";
+import { Account as AccountLayout } from "../../layouts";
 import styles from "./Main.module.scss";
 import { IProjectCard } from "../../models/projectCard";
 import { ProjectCardMobile } from "./ProjectCardMobile";
 import { TechnologiesSelect } from "./TechnologiesSelect";
+import { ProjectCardDesktop } from "./ProjectCardDesktop/ProjectCardDesktop";
 
 interface IProps {}
 
@@ -53,7 +54,7 @@ export const Main: FC<IProps> = (props: IProps): JSX.Element => {
   };
 
   return (
-    <LandingLayout>
+    <AccountLayout>
       <div className={styles.container}>
         <div>
           <div>
@@ -65,9 +66,8 @@ export const Main: FC<IProps> = (props: IProps): JSX.Element => {
         </div>
         {window.innerWidth <= 991
           ? (<ProjectCardMobile projects={projects} onApply={handleApply} onDecline={handleDecline} />)
-          : <div>main desktop</div>}
+          : (<ProjectCardDesktop projects={projects} onApply={handleApply} onDecline={handleDecline} />)}
       </div>
-
-    </LandingLayout>
+    </AccountLayout>
   );
 };

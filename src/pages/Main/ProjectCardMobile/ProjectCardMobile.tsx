@@ -13,6 +13,7 @@ interface IProps {
 
 export const ProjectCardMobile: FC<IProps> = ({ projects, onDecline, onApply }: IProps): JSX.Element => {
   const navigate = useNavigate();
+
   return (
     <div className={styles.cards}>
       {projects.map((project, index) => {
