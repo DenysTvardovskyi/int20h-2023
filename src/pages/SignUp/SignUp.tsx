@@ -1,9 +1,8 @@
 import React, { FC, useState } from "react";
 import { Authorization as AuthorizationLayout, Landing as LandingLayout } from "../../layouts";
 import { useApi, useAuthorization } from "../../hooks";
-import { Button, Form, Input, message, Select, Upload, UploadFile } from "antd";
+import { Button, Form, Input, message, Select, Upload } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
-import { RcFile } from "antd/es/upload";
 import { UploadProps } from "antd/lib";
 import animation from "../../components/Loader/Loader.animation.json";
 import { Player } from "@lottiefiles/react-lottie-player";

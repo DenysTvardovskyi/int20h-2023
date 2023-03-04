@@ -17,4 +17,8 @@
 
 .profileContainer{
   width: 50%;
+
+  @media screen and (max-width: $screen-tablet) {
+    width: 100%
+  }
 }
