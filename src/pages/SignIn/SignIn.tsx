@@ -27,39 +27,34 @@ export const SignIn: FC<IProps> = (props: IProps): JSX.Element | null => {
     <AuthorizationLayout>
       <Form
         name="basic"
-        labelCol={{ span: 8 }}
-        wrapperCol={{ span: 16 }}
-        style={{ maxWidth: 600 }}
         initialValues={{ username: "", password: "" }}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
         autoComplete="off"
       >
         <Form.Item
-          label="Username"
           name="username"
           rules={[ { required: true, message: "Please input your username!" } ]}
         >
-          <Input />
+          <Input placeholder="Username"/>
         </Form.Item>
 
         <Form.Item
-          label="Password"
           name="password"
           rules={[ { required: true, message: "Please input your password!" } ]}
         >
-          <Input.Password />
+          <Input.Password placeholder={"Password"} />
         </Form.Item>
 
-        <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+        <Form.Item>
           <Button type="primary" htmlType="submit">
-            Submit
+            Log in
           </Button>
         </Form.Item>
       </Form>
     </AuthorizationLayout>
   ) : (
-    <LandingLayout main={{ className: "d-flex justify-content-center" }}>
+    <LandingLayout>
       <div>You are authorized!</div>
     </LandingLayout>
   );

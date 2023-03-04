@@ -1,0 +1,28 @@
+@import "../../styles/variables";
+
+.authorization{
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.authContainer{
+  width: 280px;
+  padding: $spacing-small 0;
+
+  & form{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  & h5{
+    text-align: center;
+  }
+
+  & button[type="submit"]{
+    width: 100%;
+  }
+}
