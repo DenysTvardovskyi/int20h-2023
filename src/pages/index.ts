@@ -6,7 +6,6 @@ import { SignIn } from "./SignIn";
 import { SignUp } from "./SignUp";
 import { Profile } from "./Profile";
 import { Requests } from "./Requests";
-import { ForYou } from "./ForYou";
 import { Projects } from "./Projects";
 
-export { Home, Main, NotAuthorized, NotFound, SignIn, SignUp, Profile, Requests, ForYou, Projects };
+export { Home, Main, NotAuthorized, NotFound, SignIn, SignUp, Profile, Requests, Projects };
