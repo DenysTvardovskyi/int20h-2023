@@ -1,5 +1,6 @@
 import { Footer } from "./Footer";
 import { Header } from "./Header";
+import { Container } from "./Container";
 import { ILoaderContext, Loader, LoaderContext } from "./Loader";
 import { Logo } from "./Logo";
 import { Root } from "./Root";
@@ -10,6 +11,7 @@ export type { ILoaderContext };
 export {
   Footer,
   Header,
+  Container,
   Loader,
   LoaderContext,
   Logo,
