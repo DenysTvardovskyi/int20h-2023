@@ -1,9 +1,10 @@
-import React, { FC, useState } from "react";
-import { Landing as LandingLayout } from "../../layouts";
+import React, { FC, useEffect, useState } from "react";
+import { Account as AccountLayout } from "../../layouts";
 import styles from "./Main.module.scss";
 import { IProjectCard } from "../../models/projectCard";
 import { ProjectCardMobile } from "./ProjectCardMobile";
 import { TechnologiesSelect } from "./TechnologiesSelect";
+import { ProjectCardDesktop } from "./ProjectCardDesktop/ProjectCardDesktop";
 
 interface IProps {}
 
@@ -38,6 +39,7 @@ export const Main: FC<IProps> = (props: IProps): JSX.Element => {
     },
   ]);
   const [ applied, setApplied ] = useState<IProjectCard[]>([]);
+  const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
 
   const handleDecline = (project: IProjectCard) => {
     setProjects((prevState) => prevState.filter((i) => i.id !== project.id));
@@ -52,8 +54,18 @@ export const Main: FC<IProps> = (props: IProps): JSX.Element => {
     console.log(`selected ${value}`);
   };
 
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
-    <LandingLayout>
+    <AccountLayout>
       <div className={styles.container}>
         <div>
           <div>
@@ -63,11 +75,10 @@ export const Main: FC<IProps> = (props: IProps): JSX.Element => {
             Projects to apply: {projects.length}
           </div>
         </div>
-        {window.innerWidth <= 991
+        {windowWidth <= 991
           ? (<ProjectCardMobile projects={projects} onApply={handleApply} onDecline={handleDecline} />)
-          : <div>main desktop</div>}
+          : (<ProjectCardDesktop projects={projects} onApply={handleApply} onDecline={handleDecline} />)}
       </div>
-
-    </LandingLayout>
+    </AccountLayout>
   );
 };
