@@ -25,6 +25,62 @@ export const Account: FC<IProps> = ({ children }: IProps): JSX.Element => {
 
     const isMobile = window.innerWidth < 991;
 
+    const desktopMenu = [
+        {
+            link: "/for-you",
+            icon: <FireOutlined />,
+            text: "For you",
+        },
+        {
+            link: "/requests",
+            icon: <InboxOutlined />,
+            text: "Requests",
+        },
+        {
+            link: "/projects",
+            icon: <ProjectOutlined />,
+            text: "Projects",
+        },
+        {
+            link: "/profile",
+            icon: <UserOutlined />,
+            text: "Profile",
+        },
+        {
+            link: "/logout",
+            icon: <ImportOutlined />,
+            text: "Log out",
+        },
+    ];
+
+    const mobileMenu = [
+        {
+            link: "/requests",
+            icon: <InboxOutlined />,
+            text: "Requests",
+        },
+        {
+            link: "/projects",
+            icon: <ProjectOutlined />,
+            text: "Projects",
+        },
+        {
+            link: "/for-you",
+            icon: <FireOutlined />,
+            text: "For you",
+        },
+        {
+            link: "/profile",
+            icon: <UserOutlined />,
+            text: "Profile",
+        },
+        {
+            link: "/logout",
+            icon: <ImportOutlined />,
+            text: "Log out",
+        },
+    ];
+
     return (
         <div className={styles.accountLayout}>
             <div className={styles.navigation}>
@@ -37,36 +93,23 @@ export const Account: FC<IProps> = ({ children }: IProps): JSX.Element => {
                     onClick={onClick}
                 >
                     {!isMobile && <Player src={animation} style={{ width: 100 }} autoplay loop />}
-                    <Menu.Item key='/for-you'>
-                        <NavLink to='/for-you'>
-                            <FireOutlined />
-                            <span>For you</span>
-                        </NavLink>
-                    </Menu.Item>
-                    <Menu.Item key='/requests'>
-                        <NavLink to='/requests'>
-                            <InboxOutlined />
-                            <span>Requests</span>
-                        </NavLink>
-                    </Menu.Item>
-                    <Menu.Item key='/projects'>
-                        <NavLink to='/projects'>
-                            <ProjectOutlined />
-                            <span>Projects</span>
-                        </NavLink>
-                    </Menu.Item>
-                    <Menu.Item key='/profile'>
-                        <NavLink to='/profile'>
-                            <UserOutlined />
-                            <span>Profile</span>
-                        </NavLink>
-                    </Menu.Item>
-                    <Menu.Item key='/logout'>
-                        <NavLink to='/logout'>
-                            <ImportOutlined />
-                            <span>Log out</span>
-                        </NavLink>
-                    </Menu.Item>
+                    {!isMobile
+                        ? desktopMenu.map((item) => (
+                              <Menu.Item key={item.link}>
+                                  <NavLink to={item.link}>
+                                      {item.icon}
+                                      <span>{item.text}</span>
+                                  </NavLink>
+                              </Menu.Item>
+                          ))
+                        : mobileMenu.map((item) => (
+                              <Menu.Item key={item.link}>
+                                  <NavLink to={item.link}>
+                                      {item.icon}
+                                      <span>{item.text}</span>
+                                  </NavLink>
+                              </Menu.Item>
+                          ))}
                 </Menu>
             </div>
             <div className={styles.accountContent}>{children}</div>
