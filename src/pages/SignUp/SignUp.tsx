@@ -1,10 +1,12 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { Authorization as AuthorizationLayout, Landing as LandingLayout } from "../../layouts";
 import { useApi, useAuthorization } from "../../hooks";
-import { Button, Form, Input, Select, Upload } from "antd";
+import { Button, Form, Input, message, Select, Upload, UploadFile } from "antd";
+import { UploadOutlined } from "@ant-design/icons";
+import { RcFile } from "antd/es/upload";
+import { UploadProps } from "antd/lib";
 import animation from "../../components/Loader/Loader.animation.json";
 import { Player } from "@lottiefiles/react-lottie-player";
-import { UploadOutlined } from "@ant-design/icons";
 
 interface IProps {}
 
@@ -20,8 +22,27 @@ export const SignUp: FC<IProps> = (props: IProps): JSX.Element => {
         console.log("Failed:", errorInfo);
     };
 
+    const fileProps: UploadProps = {
+        name: "file",
+        action: "https://www.mocky.io/v2/5cc8019d300000980a055e76",
+        headers: {
+            authorization: "authorization-text",
+        },
+        onChange(info) {
+            if (info.file.status !== "uploading") {
+                console.log(info.file, info.fileList);
+            }
+            if (info.file.status === "done") {
+                message.success(`${info.file.name} file uploaded successfully`);
+            } else if (info.file.status === "error") {
+                message.error(`${info.file.name} file upload failed.`);
+            }
+        },
+    };
+
     return !isAuthorized ? (
         <AuthorizationLayout>
+            <Player src={animation} style={{ width: 100 }} autoplay loop />
             <h5>Create account</h5>
             <Form
                 name='basic'
@@ -35,6 +56,7 @@ export const SignUp: FC<IProps> = (props: IProps): JSX.Element => {
                     github: "",
                     linkedin: "",
                     experience: "",
+                    file: "",
                 }}
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
@@ -129,6 +151,7 @@ export const SignUp: FC<IProps> = (props: IProps): JSX.Element => {
                     <Select
                         placeholder='Years of experience'
                         options={[
+                            { value: "", label: "Not chosen" },
                             { value: "0", label: "Less then a year" },
                             { value: "1 - 2", label: "1 - 2 years" },
                             { value: "2 - 5", label: "2 - 5 years" },
@@ -137,8 +160,11 @@ export const SignUp: FC<IProps> = (props: IProps): JSX.Element => {
                     />
                 </Form.Item>
 
-                <Form.Item rules={[{ required: true, message: "Please upload your cv!" }]}>
-                    <Upload {...props}>
+                <Form.Item
+                    name='file'
+                    rules={[{ required: true, message: "Please upload your cv!" }]}
+                >
+                    <Upload {...fileProps}>
                         <Button icon={<UploadOutlined />}>Upload your cv</Button>
                     </Upload>
                 </Form.Item>
