@@ -8,7 +8,35 @@ import { TechnologiesSelect } from "./TechnologiesSelect";
 interface IProps {}
 
 export const Main: FC<IProps> = (props: IProps): JSX.Element => {
-  const [ projects, setProjects ] = useState<IProjectCard[]>([]);
+  const [ projects, setProjects ] = useState<IProjectCard[]>([
+    {
+      id: "qwe",
+      title: "JWP",
+      rating: 30123,
+      linkToLive: "",
+      description: "Description",
+      requirements: "req",
+      stack: [
+        {
+          title: "React",
+          category: "front-end",
+        },
+      ],
+      collaborators: [
+        {
+          username: "Nodari",
+          profileImg: "",
+          role: "FrontEnd",
+        },
+      ],
+      owner: {
+        id: "312",
+        username: "Denys",
+        profileImg: "",
+        quote: "sleeping...",
+      },
+    },
+  ]);
   const [ applied, setApplied ] = useState<IProjectCard[]>([]);
 
   const handleDecline = (project: IProjectCard) => {

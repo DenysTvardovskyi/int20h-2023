@@ -11,7 +11,7 @@ export const CollaboratorList: FC<IProps> = ({ collaborators }: IProps): JSX.Ele
     <div
       id="scrollableDiv"
       style={{
-        maxHeight: 320,
+        height: 320,
         overflowY: "auto",
       }}
     >
@@ -21,7 +21,7 @@ export const CollaboratorList: FC<IProps> = ({ collaborators }: IProps): JSX.Ele
           <List.Item key={item.username}>
             <List.Item.Meta
               avatar={<Avatar src={item.profileImg} />}
-              title={<a href="https://ant.design">{item.username}</a>}
+              title={<p style={{ margin: "4px 0" }}>{item.username}</p>}
             />
             <div style={{ marginRight: 12 }}>{item.role}</div>
           </List.Item>
