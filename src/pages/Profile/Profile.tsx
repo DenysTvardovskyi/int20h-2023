@@ -36,7 +36,14 @@ export const Profile: FC<IProps> = (props: IProps): JSX.Element => {
 
     return (
         <AccountLayout>
-            <Menu defaultSelectedKeys={["1"]} mode='inline' inlineCollapsed={false} items={items} />
+            <div className={styles.navigation}>
+                <Menu
+                    defaultSelectedKeys={["1"]}
+                    mode='inline'
+                    inlineCollapsed={false}
+                    items={items}
+                />
+            </div>
             <div className={styles.profileContent}></div>
         </AccountLayout>
     );

@@ -1,9 +1,10 @@
 import React, { FC } from "react";
 import { Authorization as AuthorizationLayout, Landing as LandingLayout } from "../../layouts";
 import { useApi, useAuthorization } from "../../hooks";
-import { Button, Form, Input, Select } from "antd";
+import { Button, Form, Input, Select, Upload } from "antd";
 import animation from "../../components/Loader/Loader.animation.json";
 import { Player } from "@lottiefiles/react-lottie-player";
+import { UploadOutlined } from "@ant-design/icons";
 
 interface IProps {}
 
@@ -25,7 +26,17 @@ export const SignUp: FC<IProps> = (props: IProps): JSX.Element => {
             <h5>Create account</h5>
             <Form
                 name='basic'
-                initialValues={{ username: "", password: "", confirmPassword: "", email: "" }}
+                initialValues={{
+                    username: "",
+                    firstName: "",
+                    lastName: "",
+                    password: "",
+                    confirmPassword: "",
+                    email: "",
+                    github: "",
+                    linkedin: "",
+                    experience: "",
+                }}
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
                 autoComplete='off'
@@ -38,7 +49,7 @@ export const SignUp: FC<IProps> = (props: IProps): JSX.Element => {
                 </Form.Item>
 
                 <Form.Item
-                    name='First name'
+                    name='firstName'
                     rules={[{ required: true, message: "Please input your first name!" }]}
                 >
                     <Input placeholder={"First name"} />
@@ -46,7 +57,7 @@ export const SignUp: FC<IProps> = (props: IProps): JSX.Element => {
 
                 <Form.Item
                     name='First name'
-                    rules={[{ required: true, message: "Please input your first name!" }]}
+                    rules={[{ required: true, message: "Please input your last name!" }]}
                 >
                     <Input placeholder={"Last name"} />
                 </Form.Item>
@@ -67,11 +78,11 @@ export const SignUp: FC<IProps> = (props: IProps): JSX.Element => {
                     <Input placeholder='E-mail' />
                 </Form.Item>
 
-                <Form.Item name='Github'>
-                    <Input placeholder={"Github link"} />
+                <Form.Item name='github'>
+                    <Input placeholder={"Github"} />
                 </Form.Item>
 
-                <Form.Item name='Linkedin'>
+                <Form.Item name='linkedin'>
                     <Input placeholder={"Linkedin"} />
                 </Form.Item>
 
@@ -112,7 +123,10 @@ export const SignUp: FC<IProps> = (props: IProps): JSX.Element => {
                     <Input.Password placeholder='Confirm Password' />
                 </Form.Item>
 
-                <Form.Item>
+                <Form.Item
+                    name='experience'
+                    rules={[{ required: true, message: "Please select years of experience!" }]}
+                >
                     <Select
                         placeholder='Years of experience'
                         options={[
@@ -122,6 +136,12 @@ export const SignUp: FC<IProps> = (props: IProps): JSX.Element => {
                             { value: "> 5 years", label: "More then 5 years" },
                         ]}
                     />
+                </Form.Item>
+
+                <Form.Item rules={[{ required: true, message: "Please upload your cv!" }]}>
+                    <Upload {...props}>
+                        <Button icon={<UploadOutlined />}>Upload your cv</Button>
+                    </Upload>
                 </Form.Item>
 
                 <Form.Item>
