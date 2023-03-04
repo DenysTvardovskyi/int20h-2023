@@ -7,11 +7,13 @@ import { RcFile } from "antd/es/upload";
 import { UploadProps } from "antd/lib";
 import animation from "../../components/Loader/Loader.animation.json";
 import { Player } from "@lottiefiles/react-lottie-player";
+import { useNavigate } from "react-router-dom";
 
 interface IProps {}
 
 export const SignUp: FC<IProps> = (props: IProps): JSX.Element => {
     const api = useApi();
+    const navigate = useNavigate();
     const { isAuthorized } = useAuthorization();
 
     const onFinish = (values: any) => {
@@ -174,6 +176,9 @@ export const SignUp: FC<IProps> = (props: IProps): JSX.Element => {
                         Sign up!
                     </Button>
                 </Form.Item>
+                <p>
+                    Already have account? <a onClick={() => navigate("/sign-in")}>Sign in!</a>
+                </p>
             </Form>
         </AuthorizationLayout>
     ) : (
