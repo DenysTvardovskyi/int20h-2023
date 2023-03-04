@@ -1,13 +1,13 @@
 import React, { FC } from "react";
 import { Account as AccountLayout } from "../../layouts";
-import styles from "./Profile.module.scss";
+import styles from "./Projects.module.scss";
 
 interface IProps {}
 
-export const Profile: FC<IProps> = (props: IProps): JSX.Element => {
+export const Projects: FC<IProps> = (props: IProps): JSX.Element => {
     return (
         <AccountLayout>
-            <div className={styles.profileContent}>profile content</div>
+            <div className={styles.profileContent}>projects</div>
         </AccountLayout>
     );
 };
