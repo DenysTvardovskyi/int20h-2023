@@ -2,13 +2,20 @@
 
 .profileContent{
   width: 100%;
-  min-height: 100vh;
   border: 1px solid red;
-  box-sizing: border-box;
-  padding: $spacing-small;
+  display: flex;
+  justify-content: center;
 }
-.navigation{
-  width: 250px;
-  min-height: 100vh;
-  border: 1px solid blue;
+
+.avatar{
+  width: 200px;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: $h4-size;
+}
+
+.profileContainer{
+  width: 50%;
 }
