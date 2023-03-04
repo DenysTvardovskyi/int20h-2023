@@ -1,7 +1,13 @@
 import React, { FC } from "react";
 import styles from "./Account.module.scss";
 import { Menu, MenuProps } from "antd";
-import { FireOutlined, InboxOutlined, ProjectOutlined, UserOutlined } from "@ant-design/icons";
+import {
+    FireOutlined,
+    InboxOutlined,
+    ProjectOutlined,
+    UserOutlined,
+    ImportOutlined,
+} from "@ant-design/icons";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Player } from "@lottiefiles/react-lottie-player";
 import animation from "../../components/Loader/Loader.animation.json";
@@ -17,18 +23,20 @@ export const Account: FC<IProps> = ({ children }: IProps): JSX.Element => {
         navigate(e.key);
     };
 
+    const isMobile = window.innerWidth < 991;
+
     return (
         <div className={styles.accountLayout}>
             <div className={styles.navigation}>
                 <Menu
-                    className={styles.navigationEl}
+                    className={styles.navigationWrap}
                     defaultSelectedKeys={["1"]}
-                    mode='inline'
-                    inlineCollapsed={false}
+                    mode={isMobile ? "horizontal" : "inline"}
+                    inlineCollapsed={isMobile}
                     selectedKeys={[location.hash.replace("#", "")]}
                     onClick={onClick}
                 >
-                    <Player src={animation} style={{ width: 100 }} autoplay loop />
+                    {!isMobile && <Player src={animation} style={{ width: 100 }} autoplay loop />}
                     <Menu.Item key='/for-you'>
                         <NavLink to='/for-you'>
                             <FireOutlined />
@@ -55,6 +63,7 @@ export const Account: FC<IProps> = ({ children }: IProps): JSX.Element => {
                     </Menu.Item>
                     <Menu.Item key='/logout'>
                         <NavLink to='/logout'>
+                            <ImportOutlined />
                             <span>Log out</span>
                         </NavLink>
                     </Menu.Item>

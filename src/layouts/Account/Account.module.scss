@@ -18,9 +18,36 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+
+  @media screen and (max-width: $screen-tablet) {
+    width: 100%;
+    min-height: 50px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+  }
 }
 
-.navigationEl{
+.navigationWrap{
   width: 100%;
   height: 100vh;
+
+  @media screen and (max-width: $screen-tablet) {
+    border: 1px solid blue;
+    width: 100%;
+    height: 50px;
+    display: flex;
+
+    & li{
+      border: 1px solid red;
+      //width: 100%;
+    }
+
+    & li span span:last-child{
+      display: none;
+      border: 1px solid red;
+    }
+
+  }
+
 }
