@@ -1,7 +1,13 @@
 import React, { FC } from "react";
 import styles from "./Account.module.scss";
 import { Menu, MenuProps } from "antd";
-import { FireOutlined, InboxOutlined, ProjectOutlined, UserOutlined } from "@ant-design/icons";
+import {
+    FireOutlined,
+    InboxOutlined,
+    ProjectOutlined,
+    UserOutlined,
+    ImportOutlined,
+} from "@ant-design/icons";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Player } from "@lottiefiles/react-lottie-player";
 import animation from "../../components/Loader/Loader.animation.json";
@@ -17,47 +23,86 @@ export const Account: FC<IProps> = ({ children }: IProps): JSX.Element => {
         navigate(e.key);
     };
 
+    const isMobile = window.innerWidth < 991;
+
+    const desktopMenu = [
+        {
+            link: "/for-you",
+            icon: <FireOutlined />,
+            text: "For you",
+        },
+        {
+            link: "/requests",
+            icon: <InboxOutlined />,
+            text: "Requests",
+        },
+        {
+            link: "/projects",
+            icon: <ProjectOutlined />,
+            text: "Projects",
+        },
+        {
+            link: "/profile",
+            icon: <UserOutlined />,
+            text: "Profile",
+        },
+        {
+            link: "/logout",
+            icon: <ImportOutlined />,
+            text: "Log out",
+        },
+    ];
+
+    const mobileMenu = [
+        {
+            link: "/requests",
+            icon: <InboxOutlined />,
+            text: "Requests",
+        },
+        {
+            link: "/projects",
+            icon: <ProjectOutlined />,
+            text: "Projects",
+        },
+        {
+            link: "/for-you",
+            icon: <FireOutlined />,
+            text: "For you",
+        },
+        {
+            link: "/profile",
+            icon: <UserOutlined />,
+            text: "Profile",
+        },
+        {
+            link: "/logout",
+            icon: <ImportOutlined />,
+            text: "Log out",
+        },
+    ];
+
+    const getMenu = () => (isMobile ? mobileMenu : desktopMenu);
+
     return (
         <div className={styles.accountLayout}>
             <div className={styles.navigation}>
                 <Menu
-                    className={styles.navigationEl}
+                    className={styles.navigationWrap}
                     defaultSelectedKeys={["1"]}
-                    mode='inline'
-                    inlineCollapsed={false}
+                    mode={isMobile ? "horizontal" : "inline"}
+                    inlineCollapsed={isMobile}
                     selectedKeys={[location.hash.replace("#", "")]}
                     onClick={onClick}
                 >
-                    <Player src={animation} style={{ width: 100 }} autoplay loop />
-                    <Menu.Item key='/for-you'>
-                        <NavLink to='/for-you'>
-                            <FireOutlined />
-                            <span>For you</span>
-                        </NavLink>
-                    </Menu.Item>
-                    <Menu.Item key='/requests'>
-                        <NavLink to='/requests'>
-                            <InboxOutlined />
-                            <span>Requests</span>
-                        </NavLink>
-                    </Menu.Item>
-                    <Menu.Item key='/projects'>
-                        <NavLink to='/projects'>
-                            <ProjectOutlined />
-                            <span>Projects</span>
-                        </NavLink>
-                    </Menu.Item>
-                    <Menu.Item key='/profile'>
-                        <NavLink to='/profile'>
-                            <UserOutlined />
-                            <span>Profile</span>
-                        </NavLink>
-                    </Menu.Item>
-                    <Menu.Item key='/logout'>
-                        <NavLink to='/logout'>
-                            <span>Log out</span>
-                        </NavLink>
-                    </Menu.Item>
+                    {!isMobile && <Player src={animation} style={{ width: 100 }} autoplay loop />}
+                    {getMenu().map((item) => (
+                        <Menu.Item key={item.link}>
+                            <NavLink to={item.link}>
+                                {item.icon}
+                                <span>{item.text}</span>
+                            </NavLink>
+                        </Menu.Item>
+                    ))}
                 </Menu>
             </div>
             <div className={styles.accountContent}>{children}</div>
