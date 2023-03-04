@@ -1,0 +1,68 @@
+@import "variables";
+@import "reset";
+
+body {
+    font-family: $primary-font;
+    font-size: $paragraph-size;
+    color: $primary-color;
+    -webkit-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    -moz-font-feature-settings: "kern";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+    word-break: break-word;
+    font-style: normal;
+    text-decoration: none;
+    margin: $spacing-small 0;
+}
+
+h1 {
+    font-size: $h1-size;
+}
+
+h2 {
+    font-size: $h2-size;
+}
+
+h3 {
+    font-size: $h3-size;
+}
+
+h4 {
+    font-size: $h4-size;
+}
+
+h5 {
+    font-size: $h5-size;
+}
+
+@media only screen and (max-width: $screen-table) {
+    h1 {
+        font-size: $h1-size-m;
+    }
+
+    h2 {
+        font-size: $h2-size-m;
+    }
+
+    h3 {
+        font-size: $h3-size-m;
+    }
+
+    h4 {
+        font-size: $h4-size-m;
+    }
+
+    h5 {
+        font-size: $h5-size-m;
+    }
+}
