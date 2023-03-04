@@ -2,6 +2,7 @@ import React, { FC } from "react";
 import styles from "./Account.module.scss";
 import { Menu, MenuProps } from "antd";
 import { FireOutlined, InboxOutlined, ProjectOutlined, UserOutlined } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
 
 interface IProps {
     children?: React.ReactNode | React.ReactNode[];
@@ -9,6 +10,7 @@ interface IProps {
 
 export const Account: FC<IProps> = ({ children }: IProps): JSX.Element => {
     type MenuItem = Required<MenuProps>["items"][number];
+    const navigate = useNavigate();
 
     function getItem(
         label: React.ReactNode,
@@ -27,12 +29,16 @@ export const Account: FC<IProps> = ({ children }: IProps): JSX.Element => {
     }
 
     const items: MenuItem[] = [
-        getItem("For you", "1", <FireOutlined />),
-        getItem("Requests", "2", <InboxOutlined />),
-        getItem("My projects", "3", <ProjectOutlined />),
-        getItem("Profile", "4", <UserOutlined />),
-        getItem("Log out", "5", null),
+        getItem("For you", "/for-you", <FireOutlined />),
+        getItem("Requests", "/requests", <InboxOutlined />),
+        getItem("My projects", "/projects", <ProjectOutlined />),
+        getItem("Profile", "/profile", <UserOutlined />),
+        getItem("Log out", "/logout", null),
     ];
+
+    const onClick: MenuProps["onClick"] = (e) => {
+        navigate(e.key);
+    };
 
     return (
         <div className={styles.accountLayout}>
@@ -43,6 +49,7 @@ export const Account: FC<IProps> = ({ children }: IProps): JSX.Element => {
                     mode='inline'
                     inlineCollapsed={false}
                     items={items}
+                    onClick={onClick}
                 />
             </div>
             <div className={styles.accountContent}>{children}</div>
