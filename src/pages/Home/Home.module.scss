@@ -1,0 +1,12 @@
+@import "../../styles/variables";
+
+.home{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.link{
+  color: $primary-color;
+  margin: $spacing-small 0;
+}
