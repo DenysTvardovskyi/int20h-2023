@@ -9,4 +9,8 @@
 .createProjectWrap{
   width: 30%;
 
+  @media screen and (max-width: $screen-tablet){
+    width: 100%;
+  }
+
 }
