@@ -86,6 +86,9 @@ export const Project: FC<IProps> = (props: IProps): JSX.Element => {
                   <div>
                     <span>GitHub Stat</span>
                   </div>
+                  <div>
+                    <span>Requests</span>
+                  </div>
                 </div>
                 <div>
                   <div>
@@ -142,7 +145,6 @@ export const Project: FC<IProps> = (props: IProps): JSX.Element => {
             activeTab === "settings" && (
               <div style={{ display: "flex", justifyContent: "center", marginTop: 16 }}>
                 add collaborator
-                change live url
                 change github url
               </div>
             )
