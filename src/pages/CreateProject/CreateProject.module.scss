@@ -1,15 +1,19 @@
 @import "../../styles/variables";
 
-.createProject{
+.createProject {
   width: 100%;
   display: flex;
   justify-content: center;
 }
 
-.createProjectWrap{
+.createProjectWrap {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
   width: 30%;
 
-  @media screen and (max-width: $screen-tablet){
+  @media screen and (max-width: $screen-tablet) {
     width: 100%;
   }
 

@@ -2,6 +2,7 @@ import { Avatar, Card } from "antd";
 import React from "react";
 import { shortenNumber } from "../../utils/shortenNumber";
 import { StarFilled, StarOutlined } from "@ant-design/icons";
+import { Link } from "react-router-dom";
 
 interface IProps {
     id: string;
@@ -16,9 +17,9 @@ export const ProjectCard = ({ id, title, description, ...other }: IProps) => {
             key={id}
             extra={
                 <div>
-                    <a href={`/project/${id}`} style={{ marginLeft: 5 }}>
-                        More
-                    </a>
+                  <Link to={`/project/${id}`} style={{ marginLeft: 5 }}>
+                    More
+                  </Link>
                 </div>
             }
         >

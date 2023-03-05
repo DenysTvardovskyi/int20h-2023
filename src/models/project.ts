@@ -4,7 +4,9 @@ export interface IProject {
   gitHubInfo: IGitHubInfo;
   status: "private" | "request-only" | "open";
   rating: number;
-  linkToLive: string;
+  link: string;
+  technologies: any[];
+  ownerId: string;
   description: string;
   requirements: string;
   goals: IGoal[];

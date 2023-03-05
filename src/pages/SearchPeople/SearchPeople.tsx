@@ -18,7 +18,7 @@ export const SearchPeople: FC<IProps> = (props: IProps): JSX.Element => {
   const api = useApi();
 
   useEffect(() => {
-    api.users.all({}).then((res) => setData(res.items));
+    api.users.all({ UserNameContains: search }).then((res) => setData(res.items));
   }, [ search ]);
 
   return (
