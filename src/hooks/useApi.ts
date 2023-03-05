@@ -30,7 +30,7 @@ export enum EXPERIENCE {
 }
 
 interface IApiAuthorizationSignInConfig extends IApiConfig {
-  username: string;
+  email: string;
   password: string;
 }
 
@@ -79,6 +79,7 @@ export interface IUseApi {
   };
   users: {
     all: (config: any) => Promise<{ items: IUser[] }>
+    one: (config: any) => Promise<IUser>
   };
   technologies: {
     get: (config: any) => Promise<{ name: string, imageLink: string }[]>
@@ -144,18 +145,13 @@ export const useApi: TUseApi = (): IUseApi => {
             .catch(reject);
         });
       },
-      signIn: ({ loader, debug, password, username }) => {
+      signIn: ({ loader, debug, password, email }) => {
         return new Promise((resolve, reject) => {
-          const formData = new FormData();
-
-          formData.append("email", username);
-          formData.append("password", password);
-
           http.request<any>({
             method: "POST",
             url: `${API_URL}/users/authentication`,
-            headers: { "Content-Type": "multipart/form-data" },
-            data: formData,
+            headers,
+            data: { email, password },
             loader: !!loader ? loader : "Processing sign in...",
             debug,
           })
@@ -210,6 +206,18 @@ export const useApi: TUseApi = (): IUseApi => {
           http.request<any>({
             method: "GET",
             url: `${API_URL}/users`,
+            headers,
+            loader: !!loader ? loader : "Loading users...",
+          })
+            .then(resolve)
+            .catch(reject);
+        });
+      },
+      one: ({ id, loader }) => {
+        return new Promise((resolve, reject) => {
+          http.request<any>({
+            method: "GET",
+            url: `${API_URL}/users/${id}`,
             headers,
             loader: !!loader ? loader : "Loading users...",
           })

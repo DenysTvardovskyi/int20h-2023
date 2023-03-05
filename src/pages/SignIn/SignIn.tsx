@@ -15,7 +15,7 @@ export const SignIn: FC<IProps> = (props: IProps): JSX.Element | null => {
 
     const onFinish = (values: any) => {
         api.authorization
-            .signUp({ ...values })
+            .signIn({ ...values })
             .then(({ refreshToken, jsonWebToken }) => {
                 api.account.info
                     .get({ jsonWebToken, loader: "Getting user info..." })
@@ -36,16 +36,16 @@ export const SignIn: FC<IProps> = (props: IProps): JSX.Element | null => {
             <h5>Sign in</h5>
             <Form
                 name='basic'
-                initialValues={{ username: "", password: "" }}
+                initialValues={{ email: "", password: "" }}
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
                 autoComplete='off'
             >
                 <Form.Item
-                    name='username'
+                    name='email'
                     rules={[{ required: true, message: "Please input your username!" }]}
                 >
-                    <Input placeholder='Username' />
+                    <Input placeholder='email' />
                 </Form.Item>
 
                 <Form.Item

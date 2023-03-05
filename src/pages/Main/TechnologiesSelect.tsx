@@ -1,6 +1,7 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import { Select } from "antd";
 import { useApi } from "../../hooks";
+import { debounce } from "lodash";
 
 interface IProps {
   onChange: (value: string[]) => void;
@@ -9,6 +10,12 @@ interface IProps {
 export const TechnologiesSelect: FC<IProps> = ({ onChange }: IProps): JSX.Element => {
   const [ search, setSearch ] = useState<string>("");
   const [ options, setOptions ] = useState<{ label: string; value: string }[]>([]);
+
+  const debouncedSearch = useRef(
+    debounce(async (text: string) => {
+      setSearch(text);
+    }, 300),
+  ).current;
 
   const api = useApi();
 
@@ -26,7 +33,7 @@ export const TechnologiesSelect: FC<IProps> = ({ onChange }: IProps): JSX.Elemen
       style={{ width: "100%" }}
       placeholder="Please select"
       onChange={onChange}
-      onSearch={setSearch}
+      onSearch={debouncedSearch}
       options={options}
     />
   );
