@@ -77,7 +77,7 @@ export interface IUseApi {
   token: {
     verify: (config: IApiTokenVerifyConfig) => Promise<{ valid: boolean }>;
   };
-  account: {g
+  account: {
     info: {
       get: (config: any) => Promise<IUser>;
     },
@@ -142,7 +142,7 @@ export const useApi: TUseApi = (): IUseApi => {
         return new Promise((resolve, reject) => {
           const formData = new FormData();
 
-          formData.append("username", username);
+          formData.append("email", username);
           formData.append("password", password);
 
           http.request<any>({

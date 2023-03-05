@@ -2,12 +2,12 @@ import { useDispatch } from "react-redux";
 import { useStore } from "./useStore";
 import { RST_AUTHORIZATION, SET_AUTHORIZATION } from "../store/authorization/authorization.actions";
 import { useLoader } from "./useLoader";
-import { JWT } from "../utils";
+import * as jose from "jose";
 import { IUser } from "../models";
 
 type TUseAuthorization = () => {
   isAuthorized: boolean;
-  accessToken: string;
+  jsonWebToken: string;
   refreshToken: string;
   user: IUser;
   setAuthorization: (token: string, user: IUser, refresh?: string) => void;
@@ -17,9 +17,18 @@ type TUseAuthorization = () => {
 export const useAuthorization: TUseAuthorization = () => {
   const loader = useLoader();
   const dispatch = useDispatch();
-  const { accessToken, refreshToken, user } = useStore((store) => store.authorization);
+  const { jsonWebToken, refreshToken, user } = useStore((store) => store.authorization);
 
-  const { isValid, isActive } = JWT.parseAndValidateToken(accessToken);
+  const isValid = (): boolean => {
+    if (!jsonWebToken) {
+      return false;
+    }
+
+    const payload = jose.decodeJwt(jsonWebToken);
+    const now = Math.round(Date.now() / 1000);
+
+    return (!!payload && !!payload.exp && (payload.exp - now > 0));
+  };
 
   const setAuthorization = (token: string, user: IUser, refresh: string | undefined): void => {
     dispatch({ type: SET_AUTHORIZATION, jsonWebToken: token, refreshToken: refresh, user });
@@ -40,8 +49,8 @@ export const useAuthorization: TUseAuthorization = () => {
   };
 
   return {
-    isAuthorized: isValid() && isActive(),
-    accessToken,
+    isAuthorized: isValid(),
+    jsonWebToken,
     refreshToken,
     user,
     setAuthorization,
