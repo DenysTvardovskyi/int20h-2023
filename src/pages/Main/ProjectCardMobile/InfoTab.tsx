@@ -23,7 +23,7 @@ export const InfoTab: FC<IProps> = ({ project }: IProps): JSX.Element => {
     <div
       id="scrollableDiv"
       style={{
-        height: 320,
+        minHeight: 320,
         overflowY: "auto",
         width: "100%",
       }}

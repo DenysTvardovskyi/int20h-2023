@@ -4,7 +4,7 @@ import { useAuthorization } from "./useAuthorization";
 import { AxiosRequestHeaders } from "axios";
 import { IUser } from "../models";
 
-const API_URL: string = "https://qhuatr1mdf.execute-api.us-west-2.amazonaws.com/orus/auth/api";
+const API_URL: string = "https://backend-flu4w4sfwa-lz.a.run.app/api";
 
 interface IApiConfig {
   loader?: boolean | string;
@@ -132,7 +132,7 @@ export const useApi: TUseApi = (): IUseApi => {
             user: IUser
           }>({
             method: "POST",
-            url: `${API_URL}/account/login`,
+            url: `${API_URL}/users/authentication`,
             headers: { "Content-Type": "multipart/form-data" },
             data: formData,
             loader: !!loader ? loader : "Processing sign in...",

@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 import { HashRouter, Route, Routes } from "react-router-dom";
+import { withCheckAuthorization } from "../../hocs";
 import * as Page from "../../pages";
 
 interface IProps {}
@@ -17,6 +18,7 @@ export const Router: FC<IProps> = (props: IProps): JSX.Element => {
         <Route path="/profile" element={<Page.Profile />} />
         <Route path="/requests" element={<Page.Requests />} />
         <Route path="/projects" element={<Page.Projects />} />
+        <Route path="/project/:id" element={<Page.Project />} />
         <Route path="*" element={<Page.NotFound />} />
       </Routes>
     </HashRouter>

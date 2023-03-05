@@ -11,7 +11,7 @@ export const CollaboratorList: FC<IProps> = ({ collaborators }: IProps): JSX.Ele
         <div
             id='scrollableDiv'
             style={{
-                height: 320,
+                minHeight: 320,
                 overflowY: "auto",
             }}
         >
