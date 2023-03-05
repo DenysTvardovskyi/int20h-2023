@@ -5,6 +5,7 @@ import { Button, Empty, Form, Input } from "antd";
 import { useNavigate } from "react-router-dom";
 import { Player } from "@lottiefiles/react-lottie-player";
 import animation from "../../components/Loader/Loader.animation.json";
+import { TechnologiesSelect } from "../Main/TechnologiesSelect";
 
 interface IProps {}
 
@@ -27,7 +28,7 @@ export const CreateProject: FC<IProps> = (props: IProps): JSX.Element => {
 
                     <Form
                         name='basic'
-                        initialValues={{ name: "", github: "" }}
+                        initialValues={{ name: "", github: "", tech: [] }}
                         onFinish={onFinish}
                         onFinishFailed={onFinishFailed}
                         autoComplete='off'
@@ -44,6 +45,13 @@ export const CreateProject: FC<IProps> = (props: IProps): JSX.Element => {
                             rules={[{ required: true, message: "Please input github repo link!" }]}
                         >
                             <Input placeholder={"Github repository"} />
+                        </Form.Item>
+
+                        <Form.Item
+                            name='selectTech'
+                            rules={[{ required: true, message: "Please provide technologies!" }]}
+                        >
+                            <TechnologiesSelect onChange={(e) => console.log(e)} />
                         </Form.Item>
 
                         <Form.Item>
