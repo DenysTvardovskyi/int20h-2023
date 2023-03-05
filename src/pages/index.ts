@@ -7,6 +7,21 @@ import { SignUp } from "./SignUp";
 import { Profile } from "./Profile";
 import { Requests } from "./Requests";
 import { Projects } from "./Projects";
+import { SearchProjects } from "./SearchProject";
+import { SearchPeople } from "./SearchPeople";
 import { Project } from "./Project";
 
-export { Home, Main, NotAuthorized, NotFound, SignIn, SignUp, Profile, Requests, Project, Projects };
+export {
+  Home,
+  Main,
+  NotAuthorized,
+  NotFound,
+  SignIn,
+  SignUp,
+  Profile,
+  Requests,
+  Projects,
+  Project,
+  SearchProjects,
+  SearchPeople,
+};
