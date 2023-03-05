@@ -4,7 +4,8 @@ import styles from "./Main.module.scss";
 import { IProjectCard } from "../../models/projectCard";
 import { ProjectCardMobile } from "./ProjectCardMobile";
 import { TechnologiesSelect } from "./TechnologiesSelect";
-import { ProjectCardDesktop } from "./ProjectCardDesktop/ProjectCardDesktop";
+import { ProjectCardDesktop } from "./ProjectCardDesktop";
+import { useApi, useAuthorization } from "../../hooks";
 
 interface IProps {}
 
@@ -37,16 +38,18 @@ export const Main: FC<IProps> = (props: IProps): JSX.Element => {
       },
     },
   ]);
-  const [ applied, setApplied ] = useState<IProjectCard[]>([]);
   const [ windowWidth, setWindowWidth ] = useState<number>(window.innerWidth);
+
+  const api = useApi();
+  const { user } = useAuthorization();
 
   const handleDecline = (project: IProjectCard) => {
     setProjects((prevState) => prevState.filter((i) => i.id !== project.id));
   };
 
   const handleApply = (project: IProjectCard) => {
-    setProjects((prevState) => prevState.filter((i) => i.id !== project.id));
-    setApplied((prevState) => [ ...prevState, project ]);
+    api.request.apply({ UserId: user.id, ProjectId: project.id })
+      .then(() => setProjects((prevState) => prevState.filter((i) => i.id !== project.id)));
   };
 
   const handleChangeTechnologiesStack = (value: string[]) => {

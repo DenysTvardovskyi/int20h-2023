@@ -82,6 +82,10 @@ export interface IUseApi {
     all: (config: any) => Promise<{ items: IUser[] }>
     one: (config: any) => Promise<IUser>
   };
+  request: {
+    apply: (config: any) => Promise<void>
+    update: (config: any) => Promise<void>
+  };
   projects: {
     all: (config: any) => Promise<{ items: IProject[] }>
     one: (config: any) => Promise<IProject>
@@ -251,6 +255,34 @@ export const useApi: TUseApi = (): IUseApi => {
           http.request<any>({
             method: "GET",
             url: `${API_URL}/projects/${id}`,
+            headers,
+            loader: !!loader ? loader : "Loading users...",
+          })
+            .then(resolve)
+            .catch(reject);
+        });
+      },
+    },
+    request: {
+      apply: ({ loader, UserId, ProjectId }) => {
+        return new Promise((resolve, reject) => {
+          http.request<any>({
+            method: "POST",
+            url: `${API_URL}/project-requests`,
+            headers,
+            params: { UserId, ProjectId },
+            loader: !!loader ? loader : "Loading users...",
+          })
+            .then(resolve)
+            .catch(reject);
+        });
+      },
+      update: ({ id, loader, status }) => {
+        return new Promise((resolve, reject) => {
+          http.request<any>({
+            method: "PATCH",
+            url: `${API_URL}/project-requests/${id}/status`,
+            params: { status },
             headers,
             loader: !!loader ? loader : "Loading users...",
           })
