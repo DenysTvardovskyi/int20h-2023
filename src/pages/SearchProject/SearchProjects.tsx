@@ -1,52 +1,44 @@
-import React, { FC } from "react";
-import { Card, Result, Tag } from "antd";
+import React, { FC, useEffect, useState } from "react";
+import { Input, Result } from "antd";
 import { Account as AccountLayout } from "../../layouts";
-import { AudioOutlined, SearchOutlined } from "@ant-design/icons";
-import { Input, Space } from "antd";
+import { SearchOutlined } from "@ant-design/icons";
 import styles from "./SearchProjects.module.scss";
-import { UserAvatar } from "../../components/Avatar";
 import { ProjectCard } from "../../components/ProjectCard";
+import { useApi } from "../../hooks";
+import { IProject } from "../../models/project";
+
 const { Search } = Input;
 
 interface IProps {}
 
-const onSearch = (value: string) => console.log(value);
-
 export const SearchProjects: FC<IProps> = (props: IProps): JSX.Element => {
-    const result = [
-        {
-            id: "123",
-            title: "123",
-            description: "123",
-            rating: 123,
-        },
-        {
-            id: "123",
-            title: "123",
-            description: "123",
-            rating: 123,
-        },
-    ];
+  const [ search, setSearch ] = useState<string>("");
+  const [ data, setData ] = useState<IProject[]>([]);
+  const api = useApi();
 
-    return (
-        <AccountLayout>
-            <h4>Search for project</h4>
-            <Search placeholder='Search for projects' onSearch={onSearch} enterButton />
-            {!Boolean(result.length) ? (
-                <Result icon={<SearchOutlined />} title='Nothing found' />
-            ) : (
-                <div className={styles.searchGrid}>
-                    {result.map((item) => (
-                        <ProjectCard
-                            key={item.id}
-                            id={item.id}
-                            title={item.title}
-                            description={item.description}
-                            rating={item.rating}
-                        />
-                    ))}
-                </div>
-            )}
-        </AccountLayout>
-    );
+  useEffect(() => {
+    api.projects.all({ UserNameContains: search }).then((res) => setData(res.items));
+  }, [ search ]);
+
+  return (
+    <AccountLayout>
+      <h4>Search for project</h4>
+      <Search placeholder="Search for projects" onSearch={setSearch} enterButton />
+      {!Boolean(data.length) ? (
+        <Result icon={<SearchOutlined />} title="Nothing found" />
+      ) : (
+        <div className={styles.searchGrid}>
+          {data.map((item) => (
+            <ProjectCard
+              key={item.id}
+              id={item.id}
+              title={item.title}
+              description={item.description}
+              rating={item.rating}
+            />
+          ))}
+        </div>
+      )}
+    </AccountLayout>
+  );
 };
