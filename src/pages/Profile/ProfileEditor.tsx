@@ -20,7 +20,7 @@ export const ProfileEditor: FC<IProps> = (props: IProps): JSX.Element => {
         userName: "Daniel123123",
         image: "",
         firstName: "Daniel",
-        lastName: "Penis",
+        lastName: "Hrovinskij",
         email: "123@123.com",
         github: "git",
         linkedin: "link",
