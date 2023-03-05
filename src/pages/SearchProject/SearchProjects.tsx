@@ -3,7 +3,7 @@ import { Card, Result, Tag } from "antd";
 import { Account as AccountLayout } from "../../layouts";
 import { AudioOutlined, SearchOutlined } from "@ant-design/icons";
 import { Input, Space } from "antd";
-import styles from "../SearchPeople/SearchPeople.module.scss";
+import styles from "./SearchProjects.module.scss";
 import { UserAvatar } from "../../components/Avatar";
 import { ProjectCard } from "../../components/ProjectCard";
 const { Search } = Input;
@@ -20,12 +20,18 @@ export const SearchProjects: FC<IProps> = (props: IProps): JSX.Element => {
             description: "123",
             rating: 123,
         },
+        {
+            id: "123",
+            title: "123",
+            description: "123",
+            rating: 123,
+        },
     ];
 
     return (
         <AccountLayout>
             <h4>Search for project</h4>
-            <Search placeholder='input search text' onSearch={onSearch} enterButton />
+            <Search placeholder='Search for projects' onSearch={onSearch} enterButton />
             {!Boolean(result.length) ? (
                 <Result icon={<SearchOutlined />} title='Nothing found' />
             ) : (

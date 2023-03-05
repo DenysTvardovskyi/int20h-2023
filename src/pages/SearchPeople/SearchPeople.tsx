@@ -42,7 +42,7 @@ export const SearchPeople: FC<IProps> = (props: IProps): JSX.Element => {
     return (
         <AccountLayout>
             <h4>Search for people</h4>
-            <Search placeholder='input search text' onSearch={onSearch} enterButton />
+            <Search placeholder='Search for people' onSearch={onSearch} enterButton />
 
             {!Boolean(result.length) ? (
                 <Result icon={<SearchOutlined />} title='Nothing found' />
