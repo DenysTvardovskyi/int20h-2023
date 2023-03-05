@@ -13,9 +13,20 @@ interface IApiConfig {
 
 interface IApiAuthorizationSignUpConfig extends IApiConfig {
   email: string;
-  firstname: string;
-  lastname: string;
+  lastName: string;
+  firstName: string;
+  username: string;
+  github?: string;
+  linkedin?: string;
+  experience: EXPERIENCE;
   password: string;
+}
+
+enum EXPERIENCE {
+  LESS_THAN_YEAR,
+  ONE_TO_TWO_YEARS,
+  TWO_TO_FIVE_YEARS,
+  MORE_THAN_FIVE_YEARS
 }
 
 interface IApiAuthorizationSignInConfig extends IApiConfig {
@@ -58,15 +69,18 @@ interface IApiAccountPasswordResetCompleteConfig extends IApiConfig {
 
 export interface IUseApi {
   authorization: {
-    signUp: (config: IApiAuthorizationSignUpConfig) => Promise<void>;
-    signIn: (config: IApiAuthorizationSignInConfig) => Promise<{ accessToken: string; refreshToken: string; user: IUser }>;
+    signUp: (config: IApiAuthorizationSignUpConfig) => Promise<{ jsonWebToken: string; refreshToken: string; user: IUser }>;
+    signIn: (config: IApiAuthorizationSignInConfig) => Promise<{ jsonWebToken: string; refreshToken: string; user: IUser }>;
     signOut: (config: IApiAuthorizationSignOutConfig) => Promise<void>;
     resendActivation: (config: IApiAuthorizationResendActivationConfig) => Promise<void>;
   };
   token: {
     verify: (config: IApiTokenVerifyConfig) => Promise<{ valid: boolean }>;
   };
-  account: {
+  account: {g
+    info: {
+      get: (config: any) => Promise<IUser>;
+    },
     get: (config: IApiAccountGetConfig) => Promise<any>;
     update: (config: IApiAccountUpdateConfig) => Promise<any>;
     activate: (config: IApiAccountActivateConfig) => Promise<any>;
@@ -100,17 +114,22 @@ export const useApi: TUseApi = (): IUseApi => {
 
   return {
     authorization: {
-      signUp: ({ email, lastname, firstname, debug, password, loader }) => {
+      signUp: ({ email, lastName, firstName, username, github, linkedin, experience, debug, password, loader }) => {
         const body = {
-          email: email,
-          first_name: firstname,
-          last_name: lastname,
+          userName: username,
+          firstName: firstName,
+          lastName: lastName,
           password: password,
+          passwordConfirmation: password,
+          email: email,
+          github: github,
+          linkedin: linkedin,
+          experience: experience,
         };
         return new Promise((resolve, reject) => {
-          http.request<void>({
+          http.request<{ jsonWebToken: string; refreshToken: string; user: IUser }>({
             method: "POST",
-            url: `${API_URL}/account/register`,
+            url: `${API_URL}/users/registration`,
             headers,
             data: body,
             loader: !!loader ? loader : "Processing sign up...",
@@ -126,11 +145,7 @@ export const useApi: TUseApi = (): IUseApi => {
           formData.append("username", username);
           formData.append("password", password);
 
-          http.request<{
-            access_token: string,
-            refresh_token: string,
-            user: IUser
-          }>({
+          http.request<any>({
             method: "POST",
             url: `${API_URL}/users/authentication`,
             headers: { "Content-Type": "multipart/form-data" },
@@ -138,11 +153,7 @@ export const useApi: TUseApi = (): IUseApi => {
             loader: !!loader ? loader : "Processing sign in...",
             debug,
           })
-            .then(({ refresh_token, access_token, user }) => resolve({
-              accessToken: access_token,
-              refreshToken: refresh_token,
-              user: user,
-            }))
+            .then(resolve)
             .catch(reject);
         });
       },
@@ -199,6 +210,25 @@ export const useApi: TUseApi = (): IUseApi => {
             .then(resolve)
             .catch(reject);
         });
+      },
+      info: {
+        get: ({ jsonWebToken, loader }) => {
+          const _headers: any = {};
+          _headers["Authorization"] = `Bearer ${jsonWebToken}`;
+
+          _headers["Access-Control-Allow-Origin"] = "*";
+          _headers["Content-Type"] = "application/json";
+          return new Promise((resolve, reject) => {
+            http.request<IUser>({
+              method: "GET",
+              url: `${API_URL}/users/current`,
+              headers: _headers,
+              loader: !!loader ? loader : false,
+            })
+              .then(resolve)
+              .catch(reject);
+          });
+        },
       },
       update: ({ firstname, lastname, oldPassword, newPassword, loader }) => {
         const body = {

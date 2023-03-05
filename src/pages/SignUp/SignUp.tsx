@@ -13,32 +13,18 @@ interface IProps {}
 export const SignUp: FC<IProps> = (props: IProps): JSX.Element => {
   const api = useApi();
   const navigate = useNavigate();
-  const { isAuthorized } = useAuthorization();
+  const { isAuthorized, setAuthorization } = useAuthorization();
 
   const onFinish = (values: any) => {
-    console.log("Failed:", values);
-  };
-
-  const onFinishFailed = (errorInfo: any) => {
-    console.log("Failed:", errorInfo);
-  };
-
-  const fileProps: UploadProps = {
-    name: "file",
-    action: "https://www.mocky.io/v2/5cc8019d300000980a055e76",
-    headers: {
-      authorization: "authorization-text",
-    },
-    onChange(info) {
-      if (info.file.status !== "uploading") {
-        console.log(info.file, info.fileList);
-      }
-      if (info.file.status === "done") {
-        message.success(`${info.file.name} file uploaded successfully`);
-      } else if (info.file.status === "error") {
-        message.error(`${info.file.name} file upload failed.`);
-      }
-    },
+    api.authorization
+      .signUp({ ...values })
+      .then(({ refreshToken, jsonWebToken }) => {
+        api.account.info.get({ jsonWebToken, loader: "Getting user info..." })
+          .then((user) => setAuthorization(jsonWebToken, user, refreshToken));
+      })
+      .then(() => {
+        navigate("/profile");
+      });
   };
 
   return !isAuthorized ? (
@@ -57,10 +43,8 @@ export const SignUp: FC<IProps> = (props: IProps): JSX.Element => {
           github: "",
           linkedin: "",
           experience: "",
-          file: "",
         }}
         onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
         autoComplete="off"
       >
         <Form.Item
@@ -153,24 +137,23 @@ export const SignUp: FC<IProps> = (props: IProps): JSX.Element => {
             placeholder="Years of experience"
             options={[
               { value: "", label: "Not chosen" },
-              { value: "0", label: "Less then a year" },
-              { value: "1 - 2", label: "1 - 2 years" },
-              { value: "2 - 5", label: "2 - 5 years" },
-              { value: "> 5 years", label: "More then 5 years" },
+              { value: 0, label: "Less then a year" },
+              { value: 1, label: "1 - 2 years" },
+              { value: 2, label: "2 - 5 years" },
+              { value: 3, label: "More then 5 years" },
             ]}
           />
         </Form.Item>
 
         <Form.Item
-          name="file"
-          rules={[ { required: true, message: "Please upload your cv!" } ]}
+          style={{
+            alignItems: "center",
+            display: "flex",
+            flexDirection: "column",
+            textAlign: "center",
+            width: "100%",
+          }}
         >
-          <Upload {...fileProps}>
-            <Button icon={<UploadOutlined />}>Upload your cv</Button>
-          </Upload>
-        </Form.Item>
-
-        <Form.Item>
           <Button type="primary" htmlType="submit">
             Sign up!
           </Button>
