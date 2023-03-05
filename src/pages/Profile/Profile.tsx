@@ -1,13 +1,15 @@
 import React, { FC } from "react";
 import { Account as AccountLayout } from "../../layouts";
-import styles from "./Profile.module.scss";
 import { Tabs, TabsProps, Upload } from "antd";
 import { ProfileEditor } from "./ProfileEditor";
 import { ProfileView } from "./ProfileView";
+import { useParams } from "react-router-dom";
 
 interface IProps {}
 
 export const Profile: FC<IProps> = (props: IProps): JSX.Element => {
+    const params = useParams();
+
     const items: TabsProps["items"] = [
         {
             key: "view",
@@ -23,7 +25,7 @@ export const Profile: FC<IProps> = (props: IProps): JSX.Element => {
 
     return (
         <AccountLayout>
-            <Tabs defaultActiveKey='view' items={items} />
+            {params?.id ? <ProfileView /> : <Tabs defaultActiveKey='view' items={items} />}
         </AccountLayout>
     );
 };

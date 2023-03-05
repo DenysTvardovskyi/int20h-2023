@@ -18,7 +18,7 @@ export const Projects: FC<IProps> = (props: IProps): JSX.Element => {
 
                 {!projects.length && (
                     <Empty description='Oops, you have not projects'>
-                        <Button onClick={() => navigate("/")} type='primary'>
+                        <Button onClick={() => navigate("/create-project")} type='primary'>
                             Create new project
                         </Button>
                     </Empty>

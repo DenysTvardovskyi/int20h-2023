@@ -1,9 +1,9 @@
 import React, { FC, useState } from "react";
 import styles from "./Profile.module.scss";
-import { Avatar, Card } from "antd";
 import { shortenNumber } from "../../utils/shortenNumber";
 import { StarFilled, StarOutlined } from "@ant-design/icons";
 import { ProjectCard } from "../../components/ProjectCard";
+import { UserAvatar } from "../../components/Avatar";
 
 interface IProps {}
 
@@ -17,7 +17,7 @@ export const ProfileView: FC<IProps> = (props: IProps): JSX.Element => {
     };
 
     const profileData = {
-        image: false,
+        image: "",
         userName: "Daniel123123",
         firstName: "Daniel",
         lastName: "Penis",
@@ -70,19 +70,12 @@ export const ProfileView: FC<IProps> = (props: IProps): JSX.Element => {
             <div className={styles.profileContainerLarge}>
                 <h4>First name and last name</h4>
                 <div className={styles.profileInfo}>
-                    {profileData.image ? (
-                        <Avatar
-                            className={styles.avatar}
-                            src={
-                                "https://images.pexels.com/photos/11785073/pexels-photo-11785073.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                            }
-                        />
-                    ) : (
-                        <Avatar className={styles.avatar}>
-                            {profileData.firstName[0]}
-                            {profileData.lastName[0]}
-                        </Avatar>
-                    )}
+                    <UserAvatar
+                        className={styles.avatar}
+                        image={profileData.image}
+                        lastName={profileData.lastName}
+                        firstName={profileData.firstName}
+                    />
                     <div>
                         <p>Username: {profileData.userName}</p>
                         <p>Email: {profileData.email}</p>
@@ -92,7 +85,7 @@ export const ProfileView: FC<IProps> = (props: IProps): JSX.Element => {
                     </div>
                 </div>
                 <div className={styles.profileSection}>
-                    <h5>Your last 3 projects:</h5>
+                    <h5>Last 3 projects:</h5>
                     <div className={styles.projectsGrid}>
                         {data.slice(0, 3).map((item) => (
                             <ProjectCard
@@ -106,7 +99,7 @@ export const ProfileView: FC<IProps> = (props: IProps): JSX.Element => {
                     </div>
                 </div>
                 <div className={styles.profileSection}>
-                    <h5>You starred:</h5>
+                    <h5>Starred:</h5>
                     <div className={styles.projectsGrid}>
                         {data.map((item, index) => (
                             <ProjectCard
@@ -120,7 +113,7 @@ export const ProfileView: FC<IProps> = (props: IProps): JSX.Element => {
                     </div>
                 </div>
                 <div className={styles.profileSection}>
-                    <h5>You collaborate in:</h5>
+                    <h5>Collaborates in:</h5>
                     <div className={styles.projectsGrid}>
                         {data.map((item, index) => (
                             <ProjectCard

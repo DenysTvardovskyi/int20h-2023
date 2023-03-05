@@ -10,18 +10,20 @@ import { Projects } from "./Projects";
 import { SearchProjects } from "./SearchProject";
 import { SearchPeople } from "./SearchPeople";
 import { Project } from "./Project";
+import { CreateProject } from "./CreateProject";
 
 export {
-  Home,
-  Main,
-  NotAuthorized,
-  NotFound,
-  SignIn,
-  SignUp,
-  Profile,
-  Requests,
-  Projects,
-  Project,
-  SearchProjects,
-  SearchPeople,
+    Home,
+    Main,
+    NotAuthorized,
+    NotFound,
+    SignIn,
+    SignUp,
+    Profile,
+    Requests,
+    Projects,
+    Project,
+    SearchProjects,
+    SearchPeople,
+    CreateProject,
 };

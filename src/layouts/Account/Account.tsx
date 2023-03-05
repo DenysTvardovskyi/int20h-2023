@@ -9,6 +9,7 @@ import {
     ImportOutlined,
     SearchOutlined,
     FileSearchOutlined,
+    FileAddOutlined,
 } from "@ant-design/icons";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Player } from "@lottiefiles/react-lottie-player";
@@ -55,6 +56,11 @@ export const Account: FC<IProps> = ({ children }: IProps): JSX.Element => {
             text: "Projects",
         },
         {
+            link: "/create-project",
+            icon: <FileAddOutlined />,
+            text: "Add project",
+        },
+        {
             link: "/profile",
             icon: <UserOutlined />,
             text: "Profile",
@@ -88,14 +94,19 @@ export const Account: FC<IProps> = ({ children }: IProps): JSX.Element => {
             text: "Projects",
         },
         {
-            link: "/for-you",
-            icon: <FireOutlined />,
-            text: "For you",
+            link: "/create-project",
+            icon: <FileAddOutlined />,
+            text: "Add project",
         },
         {
             link: "/profile",
             icon: <UserOutlined />,
             text: "Profile",
+        },
+        {
+            link: "/for-you",
+            icon: <FireOutlined />,
+            text: "For you",
         },
         {
             link: "/search-projects",

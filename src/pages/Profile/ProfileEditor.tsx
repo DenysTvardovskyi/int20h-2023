@@ -3,6 +3,7 @@ import { UploadOutlined } from "@ant-design/icons";
 import { Account as AccountLayout } from "../../layouts";
 import { Avatar, Button, Form, Input, Select, Upload } from "antd";
 import styles from "./Profile.module.scss";
+import { UserAvatar } from "../../components/Avatar";
 
 interface IProps {}
 
@@ -17,7 +18,7 @@ export const ProfileEditor: FC<IProps> = (props: IProps): JSX.Element => {
 
     const profileData = {
         userName: "Daniel123123",
-        image: false,
+        image: "",
         firstName: "Daniel",
         lastName: "Penis",
         email: "123@123.com",
@@ -29,16 +30,12 @@ export const ProfileEditor: FC<IProps> = (props: IProps): JSX.Element => {
     return (
         <div className={styles.profileContent}>
             <div className={styles.profileContainer}>
-                {profileData.image ? (
-                    <Avatar
-                        className={styles.avatar}
-                        src={
-                            "https://images.pexels.com/photos/11785073/pexels-photo-11785073.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-                        }
-                    />
-                ) : (
-                    <Avatar className={styles.avatar}>U</Avatar>
-                )}
+                <UserAvatar
+                    className={styles.avatar}
+                    image={profileData.image}
+                    lastName={profileData.lastName}
+                    firstName={profileData.firstName}
+                />
 
                 <h5>Update account</h5>
                 <Form.Item>

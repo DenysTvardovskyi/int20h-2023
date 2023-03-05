@@ -20,6 +20,8 @@ export const Router: FC<IProps> = (props: IProps): JSX.Element => {
         <Route path="/sign-in" element={<Page.SignIn />} />
         <Route path="/sign-up" element={<Page.SignUp />} />
         <Route path="/profile" element={<Page.Profile />} />
+        <Route path="/profile/:id" element={<Page.Profile />} />
+        <Route path="/create-project" element={<Page.CreateProject />} />
         <Route path="/for-you" element={<PageMainWithCheckAuthorization />} />
         <Route path="/requests" element={<PageRequestsWithCheckAuthorization />} />
         <Route path="/projects" element={<PageProjectsWithCheckAuthorization />} />
