@@ -1,0 +1,25 @@
+@import "../../styles/variables";
+
+.searchGrid{
+  width: 100%;
+  position: relative;
+  display: inline-grid;
+  margin: $spacing-default 0;
+  grid-template-columns: repeat(3, 3fr);
+  gap: $spacing-default;
+
+  @media screen and (max-width: $screen-tablet) {
+    grid-template-columns: repeat(1, 3fr);
+  }
+}
+
+.searchGridItem{
+  position: relative;
+  height: auto;
+
+  & .userInfo{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+}

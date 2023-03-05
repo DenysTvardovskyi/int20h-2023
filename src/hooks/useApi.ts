@@ -3,8 +3,9 @@ import { useHTTP } from "./useHTTP";
 import { useAuthorization } from "./useAuthorization";
 import { AxiosRequestHeaders } from "axios";
 import { IUser } from "../models";
+import { IProject } from "../models/project";
 
-const API_URL: string = "https://qhuatr1mdf.execute-api.us-west-2.amazonaws.com/orus/auth/api";
+const API_URL: string = "https://backend-flu4w4sfwa-lz.a.run.app/api";
 
 interface IApiConfig {
   loader?: boolean | string;
@@ -13,13 +14,24 @@ interface IApiConfig {
 
 interface IApiAuthorizationSignUpConfig extends IApiConfig {
   email: string;
-  firstname: string;
-  lastname: string;
+  lastName: string;
+  firstName: string;
+  username: string;
+  github?: string;
+  linkedin?: string;
+  experience: EXPERIENCE;
   password: string;
 }
 
+export enum EXPERIENCE {
+  LESS_THAN_YEAR,
+  ONE_TO_TWO_YEARS,
+  TWO_TO_FIVE_YEARS,
+  MORE_THAN_FIVE_YEARS
+}
+
 interface IApiAuthorizationSignInConfig extends IApiConfig {
-  username: string;
+  email: string;
   password: string;
 }
 
@@ -58,15 +70,33 @@ interface IApiAccountPasswordResetCompleteConfig extends IApiConfig {
 
 export interface IUseApi {
   authorization: {
-    signUp: (config: IApiAuthorizationSignUpConfig) => Promise<void>;
-    signIn: (config: IApiAuthorizationSignInConfig) => Promise<{ accessToken: string; refreshToken: string; user: IUser }>;
+    signUp: (config: IApiAuthorizationSignUpConfig) => Promise<{ jsonWebToken: string; refreshToken: string; user: IUser }>;
+    signIn: (config: IApiAuthorizationSignInConfig) => Promise<{ jsonWebToken: string; refreshToken: string; user: IUser }>;
     signOut: (config: IApiAuthorizationSignOutConfig) => Promise<void>;
     resendActivation: (config: IApiAuthorizationResendActivationConfig) => Promise<void>;
   };
   token: {
     verify: (config: IApiTokenVerifyConfig) => Promise<{ valid: boolean }>;
   };
+  users: {
+    all: (config: any) => Promise<{ items: IUser[] }>
+    one: (config: any) => Promise<IUser>
+  };
+  request: {
+    apply: (config: any) => Promise<void>
+    update: (config: any) => Promise<void>
+  };
+  projects: {
+    all: (config: any) => Promise<{ items: IProject[] }>
+    one: (config: any) => Promise<IProject>
+  };
+  technologies: {
+    get: (config: any) => Promise<{ name: string, imageLink: string }[]>
+  };
   account: {
+    info: {
+      get: (config: any) => Promise<IUser>;
+    },
     get: (config: IApiAccountGetConfig) => Promise<any>;
     update: (config: IApiAccountUpdateConfig) => Promise<any>;
     activate: (config: IApiAccountActivateConfig) => Promise<any>;
@@ -83,34 +113,39 @@ type TUseApi = () => IUseApi;
 
 export const useApi: TUseApi = (): IUseApi => {
   const http = useHTTP();
-  const { isAuthorized, accessToken } = useAuthorization();
+  const { isAuthorized, jsonWebToken } = useAuthorization();
 
   const headers: AxiosRequestHeaders = useMemo<AxiosRequestHeaders>(() => {
     const _headers: any = {};
 
     if (isAuthorized) {
-      _headers["Authorization"] = `Bearer ${accessToken}`;
+      _headers["Authorization"] = `Bearer ${jsonWebToken}`;
     }
 
     _headers["Access-Control-Allow-Origin"] = "*";
     _headers["Content-Type"] = "application/json";
 
     return _headers;
-  }, [ isAuthorized, accessToken ]);
+  }, [ isAuthorized, jsonWebToken ]);
 
   return {
     authorization: {
-      signUp: ({ email, lastname, firstname, debug, password, loader }) => {
+      signUp: ({ email, lastName, firstName, username, github, linkedin, experience, debug, password, loader }) => {
         const body = {
-          email: email,
-          first_name: firstname,
-          last_name: lastname,
+          userName: username,
+          firstName: firstName,
+          lastName: lastName,
           password: password,
+          passwordConfirmation: password,
+          email: email,
+          github: github,
+          linkedin: linkedin,
+          experience: experience,
         };
         return new Promise((resolve, reject) => {
-          http.request<void>({
+          http.request<{ jsonWebToken: string; refreshToken: string; user: IUser }>({
             method: "POST",
-            url: `${API_URL}/account/register`,
+            url: `${API_URL}/users/registration`,
             headers,
             data: body,
             loader: !!loader ? loader : "Processing sign up...",
@@ -119,30 +154,17 @@ export const useApi: TUseApi = (): IUseApi => {
             .catch(reject);
         });
       },
-      signIn: ({ loader, debug, password, username }) => {
+      signIn: ({ loader, debug, password, email }) => {
         return new Promise((resolve, reject) => {
-          const formData = new FormData();
-
-          formData.append("username", username);
-          formData.append("password", password);
-
-          http.request<{
-            access_token: string,
-            refresh_token: string,
-            user: IUser
-          }>({
+          http.request<any>({
             method: "POST",
-            url: `${API_URL}/account/login`,
-            headers: { "Content-Type": "multipart/form-data" },
-            data: formData,
+            url: `${API_URL}/users/authentication`,
+            headers,
+            data: { email, password },
             loader: !!loader ? loader : "Processing sign in...",
             debug,
           })
-            .then(({ refresh_token, access_token, user }) => resolve({
-              accessToken: access_token,
-              refreshToken: refresh_token,
-              user: user,
-            }))
+            .then(resolve)
             .catch(reject);
         });
       },
@@ -187,6 +209,103 @@ export const useApi: TUseApi = (): IUseApi => {
         });
       },
     },
+    users: {
+      all: ({ loader, UserNameContains }) => {
+        return new Promise((resolve, reject) => {
+          http.request<any>({
+            method: "GET",
+            url: `${API_URL}/users`,
+            headers,
+            params: { UserNameContains },
+            loader: !!loader ? loader : "Loading users...",
+          })
+            .then(resolve)
+            .catch(reject);
+        });
+      },
+      one: ({ id, loader }) => {
+        return new Promise((resolve, reject) => {
+          http.request<any>({
+            method: "GET",
+            url: `${API_URL}/users/${id}`,
+            headers,
+            loader: !!loader ? loader : "Loading users...",
+          })
+            .then(resolve)
+            .catch(reject);
+        });
+      },
+    },
+    projects: {
+      all: ({ loader, TitleContains }) => {
+        return new Promise((resolve, reject) => {
+          http.request<any>({
+            method: "GET",
+            url: `${API_URL}/projects`,
+            headers,
+            params: { TitleContains },
+            loader: !!loader ? loader : "Loading users...",
+          })
+            .then(resolve)
+            .catch(reject);
+        });
+      },
+      one: ({ id, loader }) => {
+        return new Promise((resolve, reject) => {
+          http.request<any>({
+            method: "GET",
+            url: `${API_URL}/projects/${id}`,
+            headers,
+            loader: !!loader ? loader : "Loading users...",
+          })
+            .then(resolve)
+            .catch(reject);
+        });
+      },
+    },
+    request: {
+      apply: ({ loader, UserId, ProjectId }) => {
+        return new Promise((resolve, reject) => {
+          http.request<any>({
+            method: "POST",
+            url: `${API_URL}/project-requests`,
+            headers,
+            params: { UserId, ProjectId },
+            loader: !!loader ? loader : "Loading users...",
+          })
+            .then(resolve)
+            .catch(reject);
+        });
+      },
+      update: ({ id, loader, status }) => {
+        return new Promise((resolve, reject) => {
+          http.request<any>({
+            method: "PATCH",
+            url: `${API_URL}/project-requests/${id}/status`,
+            params: { status },
+            headers,
+            loader: !!loader ? loader : "Loading users...",
+          })
+            .then(resolve)
+            .catch(reject);
+        });
+      },
+    },
+    technologies: {
+      get: ({ Query, loader }) => {
+        return new Promise((resolve, reject) => {
+          http.request<{ name: string, imageLink: string }[]>({
+            method: "GET",
+            url: `${API_URL}/technologies`,
+            headers,
+            params: { Query: Query },
+            loader: !!loader ? loader : "Loading users...",
+          })
+            .then(resolve)
+            .catch(reject);
+        });
+      },
+    },
     account: {
       get: ({ loader }) => {
         return new Promise((resolve, reject) => {
@@ -199,6 +318,25 @@ export const useApi: TUseApi = (): IUseApi => {
             .then(resolve)
             .catch(reject);
         });
+      },
+      info: {
+        get: ({ jsonWebToken, loader }) => {
+          const _headers: any = {};
+          _headers["Authorization"] = `Bearer ${jsonWebToken}`;
+
+          _headers["Access-Control-Allow-Origin"] = "*";
+          _headers["Content-Type"] = "application/json";
+          return new Promise((resolve, reject) => {
+            http.request<IUser>({
+              method: "GET",
+              url: `${API_URL}/users/current`,
+              headers: _headers,
+              loader: !!loader ? loader : false,
+            })
+              .then(resolve)
+              .catch(reject);
+          });
+        },
       },
       update: ({ firstname, lastname, oldPassword, newPassword, loader }) => {
         const body = {

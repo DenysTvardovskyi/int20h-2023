@@ -1,0 +1,48 @@
+@import "../../styles/variables";
+
+.accountLayout{
+  width: 100%;
+  display: flex;
+}
+
+.accountContent{
+  width: 100%;
+  height: 100vh;
+  overflow-y:auto;
+  box-sizing: border-box;
+  padding: $spacing-small;
+}
+
+.navigation{
+  width: 250px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  @media screen and (max-width: $screen-tablet) {
+    width: 100%;
+    min-height: 50px;
+    position: fixed;
+    z-index: 999;
+    bottom: 0;
+    left: 0;
+  }
+}
+
+.navigationWrap{
+  width: 100%;
+  height: 100vh;
+
+  @media screen and (max-width: $screen-tablet) {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+
+    & li span span:last-child{
+      display: none;
+    }
+
+  }
+
+}

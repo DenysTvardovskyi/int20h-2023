@@ -1,7 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,400;0,700;1,400&display=swap");
 
-$primary-color: #181823;
-$secondary-color: blue;
+$primary-color: #101010;
+$secondary-color: #F2F4E9;
+$pink-color: #D7ACC4;
 
 $primary-font: "Rubik", sans-serif;
 
@@ -11,7 +12,7 @@ $weight-bold: 700;
 $h1-size: 10rem;
 $h2-size: 8rem;
 $h3-size: 6rem;
-$h4-size: 4rem;
+$h4-size: 3rem;
 $h5-size: 2rem;
 $paragraph-size: 1rem;
 
@@ -21,7 +22,7 @@ $h3-size-m: 2rem;
 $h4-size-m: 1.5rem;
 $h5-size-m: 1rem;
 
-$screen-table: 1024px;
+$screen-tablet: 991px;
 $screen-mobile: 600px;
 
 $spacing-small: 1rem;

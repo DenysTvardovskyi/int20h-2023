@@ -1,17 +1,17 @@
 import React, { FC } from "react";
-import { classes } from "../../utils";
+import { Container } from "../../components";
+import styles from "./Authorization.module.scss"
 
 interface IProps {
-  main?: {
-    className?: string;
-  };
   children?: React.ReactNode | React.ReactNode[];
 }
 
-export const Authorization: FC<IProps> = ({ main, children }: IProps): JSX.Element => {
+export const Authorization: FC<IProps> = ({ children }: IProps): JSX.Element => {
   return (
-    <main className={classes(main?.className)}>
-      {children}
-    </main>
+      <div className={styles.authorization}>
+          <div className={styles.authContainer}>
+              {children}
+          </div>
+      </div>
   );
 };

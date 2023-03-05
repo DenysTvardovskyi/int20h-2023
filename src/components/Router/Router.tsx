@@ -5,7 +5,12 @@ import * as Page from "../../pages";
 
 interface IProps {}
 
-const PageProfileWithCheckAuthorization = withCheckAuthorization(Page.Profile);
+// const PageProfileWithCheckAuthorization = withCheckAuthorization(Page.Profile);
+const PageProjectWithCheckAuthorization = withCheckAuthorization(Page.Project);
+const PageRequestsWithCheckAuthorization = withCheckAuthorization(Page.Requests);
+const PageProjectsWithCheckAuthorization = withCheckAuthorization(Page.Projects);
+const PageSearchProjectsWithCheckAuthorization = withCheckAuthorization(Page.SearchProjects);
+const PageSearchPeopleWithCheckAuthorization = withCheckAuthorization(Page.SearchPeople);
 const PageMainWithCheckAuthorization = withCheckAuthorization(Page.Main);
 export const Router: FC<IProps> = (props: IProps): JSX.Element => {
   return (
@@ -14,8 +19,15 @@ export const Router: FC<IProps> = (props: IProps): JSX.Element => {
         <Route path="/" element={<Page.Home />} />
         <Route path="/sign-in" element={<Page.SignIn />} />
         <Route path="/sign-up" element={<Page.SignUp />} />
-        <Route path="/profile" element={<PageProfileWithCheckAuthorization />} />
-        <Route path="/main" element={<PageMainWithCheckAuthorization />} />
+        <Route path="/profile" element={<Page.Profile />} />
+        <Route path="/profile/:id" element={<Page.Profile />} />
+        <Route path="/create-project" element={<Page.CreateProject />} />
+        <Route path="/for-you" element={<PageMainWithCheckAuthorization />} />
+        <Route path="/requests" element={<PageRequestsWithCheckAuthorization />} />
+        <Route path="/projects" element={<PageProjectsWithCheckAuthorization />} />
+        <Route path="/project/:id" element={<PageProjectWithCheckAuthorization />} />
+        <Route path="/search-projects" element={<PageSearchProjectsWithCheckAuthorization />} />
+        <Route path="/search-people" element={<PageSearchPeopleWithCheckAuthorization />} />
         <Route path="*" element={<Page.NotFound />} />
       </Routes>
     </HashRouter>

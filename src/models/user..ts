@@ -1,6 +1,14 @@
 export interface IUser {
   id: string;
-  createdAt: Date;
+  createdAt: string;
+  gitHubAuthenticated: boolean;
   email: string;
-  username: string;
+  userName: string;
+  avatarImageLink: null | string;
+  cvLink: null | string;
+  firstName: string;
+  lastName: string;
+  experience: string;
+  projects: string[];
+  requests: { userId: string; projectId: string; status: 0 | 1 | 2 }[];
 }

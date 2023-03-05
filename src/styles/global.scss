@@ -5,6 +5,7 @@ body {
     font-family: $primary-font;
     font-size: $paragraph-size;
     color: $primary-color;
+    background-color: $secondary-color;
     -webkit-text-size-adjust: 100%;
     -moz-text-size-adjust: 100%;
     text-size-adjust: 100%;
@@ -44,8 +45,10 @@ h4 {
 h5 {
     font-size: $h5-size;
 }
-
-@media only screen and (max-width: $screen-table) {
+strong{
+    font-weight: $weight-bold;
+}
+@media only screen and (max-width: $screen-tablet) {
     h1 {
         font-size: $h1-size-m;
     }
