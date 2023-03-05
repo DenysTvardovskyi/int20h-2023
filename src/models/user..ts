@@ -1,5 +1,3 @@
-import { EXPERIENCE } from "../hooks/useApi";
-
 export interface IUser {
   id: string;
   createdAt: string;
@@ -12,5 +10,5 @@ export interface IUser {
   lastName: string;
   experience: string;
   projects: string[];
-  requests: string[];
+  requests: { userId: string; projectId: string; status: 0 | 1 | 2 }[];
 }

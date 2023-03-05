@@ -10,7 +10,7 @@ interface IProps {
     email: string;
     userName: string;
     avatarImageLink: null | string;
-    cvLink: null | string;
+    cvLink?: null | string;
     firstName: string;
     lastName: string;
     experience: string;

@@ -35,7 +35,11 @@ export const ProjectCard = ({ onDecline, onApply, project }: IProps) => {
   const ref = useRef<HTMLDivElement>(null);
 
   const contentList: Record<string, React.ReactNode> = {
-    info: <InfoTab project={project} />,
+    info: <InfoTab
+      description={project.description}
+      technologies={project.technologies}
+      requirements={project.requirements}
+    />,
     collaborators: <CollaboratorList collaborators={project.collaborators} />,
   };
 

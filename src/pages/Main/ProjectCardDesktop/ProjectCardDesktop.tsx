@@ -47,7 +47,11 @@ export const ProjectCardDesktop: FC<IProps> = ({ projects, onApply, onDecline }:
                 <div className={styles.info}>
                   <div>
                     <span>Info</span>
-                    <InfoTab project={project} />
+                    <InfoTab
+                      description={project.description}
+                      technologies={project.technologies}
+                      requirements={project.requirements}
+                    />
                   </div>
                   <div>
                     <span>Collaborators</span>

@@ -1,21 +1,13 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { Account as AccountLayout } from "../../layouts";
 import { IProject } from "../../models/project";
-import { shortenNumber } from "../../utils/shortenNumber";
-import {
-  CheckCircleOutlined,
-  DesktopOutlined,
-  GithubOutlined,
-  InfoCircleOutlined,
-  LoadingOutlined,
-  StarFilled,
-  StarOutlined,
-} from "@ant-design/icons";
-import { Avatar, Card, List } from "antd";
+import { GithubOutlined } from "@ant-design/icons";
+import { Card, List } from "antd";
 import { InfoTab } from "../Main/ProjectCardMobile/InfoTab";
 import { CollaboratorList } from "../Main/ProjectCardMobile/CollaboratorList";
 import styles from "./Project.module.scss";
-import { useAuthorization } from "../../hooks";
+import { useApi, useAuthorization } from "../../hooks";
+import { useParams } from "react-router-dom";
 
 interface IProps {}
 
@@ -37,69 +29,35 @@ const TAB_LIST = [
 const { Meta } = Card;
 export const Project: FC<IProps> = (props: IProps): JSX.Element => {
   const { isAuthorized, user } = useAuthorization();
+  const params = useParams();
+  const api = useApi();
+  const [ data, setData ] = useState<IProject>();
 
-  const [ project, setProject ] = useState<IProject>({
-    id: "qwe",
-    title: "JWP",
-    rating: 30123,
-    linkToLive: "dasdas",
-    description: "Description",
-    requirements: "req",
-    stack: [
-      {
-        title: "React",
-        category: "front-end",
-      },
-    ],
-    collaborators: [
-      {
-        username: "Nodari",
-        profileImg: "",
-        role: "FrontEnd",
-      },
-    ],
-    owner: {
-      id: "312",
-      username: "Denys",
-      profileImg: "",
-      quote: "sleeping...",
+  useEffect(() => {
+    if (!!params.id) {
+      api.projects.one({ id: params.id }).then((res) => setData(res));
+    } else {
+      api.projects.one({ id: user.id }).then((res) => setData(res));
+    }
+  }, [ params ]);
+
+  const goals = [
+    {
+      title: "finish in time",
+      deadline: new Date(),
+      status: "new",
     },
-    gitHubInfo: {
-      repoUrl: "dasdasdas",
+    {
+      title: "dead in side",
+      deadline: new Date(),
+      status: "done",
     },
-    status: "open",
-    goals: [
-      {
-        title: "finish in time",
-        deadline: new Date(),
-        status: "new",
-      },
-      {
-        title: "dead in side",
-        deadline: new Date(),
-        status: "done",
-      },
-      {
-        title: "eat",
-        deadline: new Date(),
-        status: "new",
-      },
-    ],
-    tasks: [
-      {
-        title: "Add log in",
-        status: "new",
-      },
-      {
-        title: "Add log in",
-        status: "in-progress",
-      },
-      {
-        title: "Add log in",
-        status: "done",
-      },
-    ],
-  });
+    {
+      title: "eat",
+      deadline: new Date(),
+      status: "new",
+    },
+  ];
   const [ activeTab, setActiveTab ] = useState<"info" | "about" | "settings">("info");
 
   const onTabChange = (key: string) => {
@@ -109,18 +67,15 @@ export const Project: FC<IProps> = (props: IProps): JSX.Element => {
   return (
     <AccountLayout>
       <div className={styles.profileContent}>
-        <Card
-          title={project.title}
+        {data && <Card
+          title={data.title}
           style={{ overflowY: "auto" }}
           activeTabKey={activeTab}
           extra={<div className={styles.extraHead}>
-            <div>{shortenNumber(project.rating)} {0 < 1 ? <StarOutlined /> : <StarFilled />}</div>
-            {project.gitHubInfo.repoUrl &&
-              <a href={project.gitHubInfo.repoUrl} title="GitHub" target="_blank"><GithubOutlined /></a>}
-            {project.linkToLive &&
-              <a href={project.linkToLive} target="_blank" title="Check Live"><DesktopOutlined /></a>}
+            {data.link &&
+              <a href={data.link} title="GitHub" target="_blank"><GithubOutlined /></a>}
           </div>}
-          tabList={(isAuthorized && user.id === project.owner.id) ? TAB_LIST : TAB_LIST.filter((i) => i.key !==
+          tabList={(isAuthorized && user.id === data.ownerId) ? TAB_LIST : TAB_LIST.filter((i) => i.key !==
             "settings")}
           onTabChange={onTabChange}
         >
@@ -131,39 +86,11 @@ export const Project: FC<IProps> = (props: IProps): JSX.Element => {
                   <div>
                     <span>GitHub Stat</span>
                   </div>
-                  <div>
-                    <span>Tasks</span>
-                    <div
-                      id="scrollableDiv"
-                      style={{
-                        height: 320,
-                        overflowY: "auto",
-                        overflowX: "hidden",
-                      }}
-                    >
-                      <List
-                        dataSource={project.tasks}
-                        renderItem={(item) => (
-                          <List.Item key={item.title}>
-                            <Meta
-                              title={item.title}
-                              description={item.status}
-                            />
-                            <div>
-                              {item.status === "done" && <CheckCircleOutlined type="success" />}
-                              {item.status === "new" && <InfoCircleOutlined />}
-                              {item.status === "in-progress" && <LoadingOutlined />}
-                            </div>
-                          </List.Item>
-                        )}
-                      />
-                    </div>
-                  </div>
                 </div>
                 <div>
                   <div>
                     <span>Collaborators</span>
-                    <CollaboratorList collaborators={project.collaborators} />
+                    <CollaboratorList collaborators={data.collaborators} />
                   </div>
                   <div>
                     <span>Goals</span>
@@ -175,7 +102,7 @@ export const Project: FC<IProps> = (props: IProps): JSX.Element => {
                       }}
                     >
                       <List
-                        dataSource={project.goals}
+                        dataSource={goals}
                         renderItem={(item) => (
                           <List.Item key={item.title}>
                             <Meta
@@ -198,17 +125,15 @@ export const Project: FC<IProps> = (props: IProps): JSX.Element => {
           {activeTab === "about" && (
             <div>
               <div>
-                <span>Owner</span>
-                <Meta
-                  avatar={<Avatar src={project.owner.profileImg} />}
-                  title={project.owner.username}
-                  style={{ marginTop: 16 }}
-                  description={project.owner.quote}
-                />
+                <span>Owner Info</span>
               </div>
               <div style={{ marginTop: 16 }}>
                 <span>General Info</span>
-                <InfoTab project={project} />
+                <InfoTab
+                  requirements={data?.requirements}
+                  description={data?.description}
+                  technologies={data.technologies}
+                />
               </div>
             </div>
 
@@ -222,7 +147,7 @@ export const Project: FC<IProps> = (props: IProps): JSX.Element => {
               </div>
             )
           }
-        </Card>
+        </Card>}
       </div>
     </AccountLayout>
   );

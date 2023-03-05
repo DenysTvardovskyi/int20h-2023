@@ -5,7 +5,8 @@ export interface IProjectCard {
   linkToLive: string;
   description: string;
   requirements: string;
-  stack: ITechnology[];
+  stack?: ITechnology[];
+  technologies: any[];
   collaborators: ICollaborator[];
   owner: IOwner;
 }

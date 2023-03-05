@@ -17,10 +17,9 @@ export const Main: FC<IProps> = (props: IProps): JSX.Element => {
       linkToLive: "",
       description: "Description",
       requirements: "req",
-      stack: [
+      technologies: [
         {
-          title: "React",
-          category: "front-end",
+          name: "React",
         },
       ],
       collaborators: [
@@ -39,7 +38,7 @@ export const Main: FC<IProps> = (props: IProps): JSX.Element => {
     },
   ]);
   const [ applied, setApplied ] = useState<IProjectCard[]>([]);
-  const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth);
+  const [ windowWidth, setWindowWidth ] = useState<number>(window.innerWidth);
 
   const handleDecline = (project: IProjectCard) => {
     setProjects((prevState) => prevState.filter((i) => i.id !== project.id));
