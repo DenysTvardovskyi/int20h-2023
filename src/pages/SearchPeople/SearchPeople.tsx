@@ -19,6 +19,24 @@ export const SearchPeople: FC<IProps> = (props: IProps): JSX.Element => {
             firstName: "hello",
             lastName: "world",
         },
+        {
+            id: "someid",
+            image: "",
+            firstName: "hello",
+            lastName: "world",
+        },
+        {
+            id: "someid",
+            image: "123",
+            firstName: "hello",
+            lastName: "world",
+        },
+        {
+            id: "someid",
+            image: "",
+            firstName: "hello",
+            lastName: "world",
+        },
     ];
 
     return (

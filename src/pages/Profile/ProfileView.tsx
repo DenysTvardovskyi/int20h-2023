@@ -3,6 +3,7 @@ import styles from "./Profile.module.scss";
 import { Avatar, Card } from "antd";
 import { shortenNumber } from "../../utils/shortenNumber";
 import { StarFilled, StarOutlined } from "@ant-design/icons";
+import { ProjectCard } from "../../components/ProjectCard";
 
 interface IProps {}
 
@@ -94,27 +95,13 @@ export const ProfileView: FC<IProps> = (props: IProps): JSX.Element => {
                     <h5>Your last 3 projects:</h5>
                     <div className={styles.projectsGrid}>
                         {data.slice(0, 3).map((item) => (
-                            <Card
+                            <ProjectCard
                                 key={item.id}
-                                extra={
-                                    <div>
-                                        {shortenNumber(item.rating)}
-                                        {0 < 1 ? (
-                                            <StarOutlined role='button' />
-                                        ) : (
-                                            <StarFilled role='button' />
-                                        )}
-                                        <a href={item.linkToLive} style={{ marginLeft: 5 }}>
-                                            More
-                                        </a>
-                                    </div>
-                                }
-                            >
-                                <p>
-                                    <strong>{item.title}</strong>
-                                </p>
-                                <p>{item.description}</p>
-                            </Card>
+                                id={item.id}
+                                title={item.title}
+                                description={item.description}
+                                rating={item.rating}
+                            />
                         ))}
                     </div>
                 </div>
@@ -122,27 +109,13 @@ export const ProfileView: FC<IProps> = (props: IProps): JSX.Element => {
                     <h5>You starred:</h5>
                     <div className={styles.projectsGrid}>
                         {data.map((item, index) => (
-                            <Card
+                            <ProjectCard
                                 key={item.id}
-                                extra={
-                                    <div>
-                                        {shortenNumber(item.rating)}
-                                        {0 < 1 ? (
-                                            <StarOutlined role='button' />
-                                        ) : (
-                                            <StarFilled role='button' />
-                                        )}
-                                        <a href={item.linkToLive} style={{ marginLeft: 5 }}>
-                                            More
-                                        </a>
-                                    </div>
-                                }
-                            >
-                                <p>
-                                    <strong>{item.title}</strong>
-                                </p>
-                                <p>{item.description}</p>
-                            </Card>
+                                id={item.id}
+                                title={item.title}
+                                description={item.description}
+                                rating={item.rating}
+                            />
                         ))}
                     </div>
                 </div>
@@ -150,27 +123,13 @@ export const ProfileView: FC<IProps> = (props: IProps): JSX.Element => {
                     <h5>You collaborate in:</h5>
                     <div className={styles.projectsGrid}>
                         {data.map((item, index) => (
-                            <Card
+                            <ProjectCard
                                 key={item.id}
-                                extra={
-                                    <div>
-                                        {shortenNumber(item.rating)}
-                                        {0 < 1 ? (
-                                            <StarOutlined role='button' />
-                                        ) : (
-                                            <StarFilled role='button' />
-                                        )}
-                                        <a href={item.linkToLive} style={{ marginLeft: 5 }}>
-                                            More
-                                        </a>
-                                    </div>
-                                }
-                            >
-                                <p>
-                                    <strong>{item.title}</strong>
-                                </p>
-                                <p>{item.description}</p>
-                            </Card>
+                                id={item.id}
+                                title={item.title}
+                                description={item.description}
+                                rating={item.rating}
+                            />
                         ))}
                     </div>
                 </div>
