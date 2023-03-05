@@ -18,6 +18,7 @@ export const Router: FC<IProps> = (props: IProps): JSX.Element => {
                 <Route path='/profile/:id' element={<Page.Profile />} />
                 <Route path='/requests' element={<Page.Requests />} />
                 <Route path='/projects' element={<Page.Projects />} />
+                <Route path='/create-project' element={<Page.CreateProject />} />
                 <Route path='/project/:id' element={<Page.Project />} />
                 <Route path='/search-projects' element={<Page.SearchProjects />} />
                 <Route path='/search-people' element={<Page.SearchPeople />} />

@@ -10,8 +10,6 @@ interface IProps {}
 export const Profile: FC<IProps> = (props: IProps): JSX.Element => {
     const params = useParams();
 
-    console.log(params);
-
     const items: TabsProps["items"] = [
         {
             key: "view",
