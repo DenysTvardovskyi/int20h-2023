@@ -1,73 +1,55 @@
-import React, { FC } from "react";
-import { Card, Result, Tag } from "antd";
+import React, { FC, useEffect, useState } from "react";
+import { Card, Input, Result } from "antd";
 import { Account as AccountLayout } from "../../layouts";
-import { AudioOutlined, SearchOutlined } from "@ant-design/icons";
-import { Input, Space } from "antd";
-const { Search } = Input;
+import { SearchOutlined } from "@ant-design/icons";
 import styles from "./SearchPeople.module.scss";
 import { UserAvatar } from "../../components/Avatar";
+import { Link } from "react-router-dom";
+import { IUser } from "../../models";
+import { useApi } from "../../hooks";
+
+const { Search } = Input;
 
 interface IProps {}
 
-const onSearch = (value: string) => console.log(value);
-
 export const SearchPeople: FC<IProps> = (props: IProps): JSX.Element => {
-    const result = [
-        {
-            id: "someid",
-            image: "123",
-            firstName: "hello",
-            lastName: "world",
-        },
-        {
-            id: "someid",
-            image: "",
-            firstName: "hello",
-            lastName: "world",
-        },
-        {
-            id: "someid",
-            image: "123",
-            firstName: "hello",
-            lastName: "world",
-        },
-        {
-            id: "someid",
-            image: "",
-            firstName: "hello",
-            lastName: "world",
-        },
-    ];
+  const [ search, setSearch ] = useState<string>("");
+  const [ data, setData ] = useState<IUser[]>([]);
+  const api = useApi();
 
-    return (
-        <AccountLayout>
-            <h4>Search for people</h4>
-            <Search placeholder='Search for people' onSearch={onSearch} enterButton />
+  useEffect(() => {
+    api.users.all({}).then((res) => setData(res.items));
+  }, [ search ]);
 
-            {!Boolean(result.length) ? (
-                <Result icon={<SearchOutlined />} title='Nothing found' />
-            ) : (
-                <div className={styles.searchGrid}>
-                    {result.map((item) => (
-                        <Card
-                            key={item.id}
-                            className={styles.searchGridItem}
-                            extra={<a href={item.id}>More</a>}
-                        >
-                            <div className={styles.userInfo}>
-                                <UserAvatar
-                                    image={item.image}
-                                    lastName={item.lastName}
-                                    firstName={item.firstName}
-                                />
-                                <p>
-                                    <strong>{item.firstName + " " + item.lastName}</strong>
-                                </p>
-                            </div>
-                        </Card>
-                    ))}
-                </div>
-            )}
-        </AccountLayout>
-    );
+  return (
+    <AccountLayout>
+      <h4>Search for people</h4>
+      <Search placeholder="Search for people" onSearch={setSearch} enterButton />
+
+      {!Boolean(data.length) ? (
+        <Result icon={<SearchOutlined />} title="Nothing found" />
+      ) : (
+        <div className={styles.searchGrid}>
+          {data.map((item) => (
+            <Card
+              key={item.id}
+              className={styles.searchGridItem}
+              extra={<Link to={`/profile/${item.id}`}>More</Link>}
+            >
+              <div className={styles.userInfo}>
+                <UserAvatar
+                  image={item.avatarImageLink}
+                  lastName={item.lastName}
+                  firstName={item.firstName}
+                />
+                <p>
+                  <strong>{item.firstName + " " + item.lastName}</strong>
+                </p>
+              </div>
+            </Card>
+          ))}
+        </div>
+      )}
+    </AccountLayout>
+  );
 };

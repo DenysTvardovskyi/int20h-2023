@@ -22,7 +22,7 @@ interface IApiAuthorizationSignUpConfig extends IApiConfig {
   password: string;
 }
 
-enum EXPERIENCE {
+export enum EXPERIENCE {
   LESS_THAN_YEAR,
   ONE_TO_TWO_YEARS,
   TWO_TO_FIVE_YEARS,
@@ -77,6 +77,12 @@ export interface IUseApi {
   token: {
     verify: (config: IApiTokenVerifyConfig) => Promise<{ valid: boolean }>;
   };
+  users: {
+    all: (config: any) => Promise<{ items: IUser[] }>
+  };
+  technologies: {
+    get: (config: any) => Promise<{ name: string, imageLink: string }[]>
+  };
   account: {
     info: {
       get: (config: any) => Promise<IUser>;
@@ -97,20 +103,20 @@ type TUseApi = () => IUseApi;
 
 export const useApi: TUseApi = (): IUseApi => {
   const http = useHTTP();
-  const { isAuthorized, accessToken } = useAuthorization();
+  const { isAuthorized, jsonWebToken } = useAuthorization();
 
   const headers: AxiosRequestHeaders = useMemo<AxiosRequestHeaders>(() => {
     const _headers: any = {};
 
     if (isAuthorized) {
-      _headers["Authorization"] = `Bearer ${accessToken}`;
+      _headers["Authorization"] = `Bearer ${jsonWebToken}`;
     }
 
     _headers["Access-Control-Allow-Origin"] = "*";
     _headers["Content-Type"] = "application/json";
 
     return _headers;
-  }, [ isAuthorized, accessToken ]);
+  }, [ isAuthorized, jsonWebToken ]);
 
   return {
     authorization: {
@@ -192,6 +198,35 @@ export const useApi: TUseApi = (): IUseApi => {
             headers,
             data: { access_token: accessToken },
             loader: !!loader ? loader : false,
+          })
+            .then(resolve)
+            .catch(reject);
+        });
+      },
+    },
+    users: {
+      all: ({ loader }) => {
+        return new Promise((resolve, reject) => {
+          http.request<any>({
+            method: "GET",
+            url: `${API_URL}/users`,
+            headers,
+            loader: !!loader ? loader : "Loading users...",
+          })
+            .then(resolve)
+            .catch(reject);
+        });
+      },
+    },
+    technologies: {
+      get: ({ Query, loader }) => {
+        return new Promise((resolve, reject) => {
+          http.request<{ name: string, imageLink: string }[]>({
+            method: "GET",
+            url: `${API_URL}/technologies`,
+            headers,
+            params: { Query: Query },
+            loader: !!loader ? loader : "Loading users...",
           })
             .then(resolve)
             .catch(reject);

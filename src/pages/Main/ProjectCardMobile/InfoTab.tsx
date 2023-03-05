@@ -40,7 +40,7 @@ export const InfoTab: FC<IProps> = ({ project }: IProps): JSX.Element => {
         <Panel header="Stack" key="2" style={panelStyle}>
           <Space size={[ 0, 8 ]} wrap>
             {project.stack.map((technology) => {
-              return <Tag>{technology.title}</Tag>;
+              return <Tag key={technology.title}>{technology.title}</Tag>;
             })}
           </Space>
         </Panel>

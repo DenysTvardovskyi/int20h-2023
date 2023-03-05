@@ -1,6 +1,14 @@
+import { EXPERIENCE } from "../hooks/useApi";
+
 export interface IUser {
   id: string;
-  createdAt: Date;
+  userName: string;
+  avatarImageLink: string;
+  lastName: string;
+  firstName: string;
+  stack: string[];
   email: string;
-  username: string;
+  cvLink: string;
+  createdAt: string;
+  experience: EXPERIENCE;
 }
