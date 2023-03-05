@@ -18,7 +18,7 @@ export const Home: FC<IProps> = (props: IProps): JSX.Element => {
           <Player src={animation} style={{ width: 100 }} autoplay loop />
           <h5>ExperienceForge</h5>
           <p>Find your first project</p>
-          <Button className={styles.link} onClick={() => navigate("main")}>Start your journey!</Button>
+          <Button className={styles.link} onClick={() => navigate("/for-you")}>Start your journey!</Button>
         </div>
       </Container>
     </LandingLayout>
