@@ -10,7 +10,7 @@ interface IProps {}
 export const Profile: FC<IProps> = (props: IProps): JSX.Element => {
     const params = useParams();
 
-    console.log(props);
+    console.log(params);
 
     const items: TabsProps["items"] = [
         {
@@ -27,7 +27,7 @@ export const Profile: FC<IProps> = (props: IProps): JSX.Element => {
 
     return (
         <AccountLayout>
-            {params ? "123123" : <Tabs defaultActiveKey='view' items={items} />}
+            {params?.id ? <ProfileView /> : <Tabs defaultActiveKey='view' items={items} />}
         </AccountLayout>
     );
 };

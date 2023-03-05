@@ -92,7 +92,7 @@ export const ProfileView: FC<IProps> = (props: IProps): JSX.Element => {
                     </div>
                 </div>
                 <div className={styles.profileSection}>
-                    <h5>Your last 3 projects:</h5>
+                    <h5>Last 3 projects:</h5>
                     <div className={styles.projectsGrid}>
                         {data.slice(0, 3).map((item) => (
                             <ProjectCard
@@ -106,7 +106,7 @@ export const ProfileView: FC<IProps> = (props: IProps): JSX.Element => {
                     </div>
                 </div>
                 <div className={styles.profileSection}>
-                    <h5>You starred:</h5>
+                    <h5>Starred:</h5>
                     <div className={styles.projectsGrid}>
                         {data.map((item, index) => (
                             <ProjectCard
@@ -120,7 +120,7 @@ export const ProfileView: FC<IProps> = (props: IProps): JSX.Element => {
                     </div>
                 </div>
                 <div className={styles.profileSection}>
-                    <h5>You collaborate in:</h5>
+                    <h5>Collaborates in:</h5>
                     <div className={styles.projectsGrid}>
                         {data.map((item, index) => (
                             <ProjectCard
